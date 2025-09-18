@@ -1,0 +1,21 @@
+workflows:
+  cordova-workflow:
+    name: Cordova Android Build
+    max_build_duration: 30
+    environment:
+      vars:
+        CORDOVA_PLATFORM: android
+      node: latest
+    scripts:
+      - name: Install Cordova
+        script: npm install -g cordova
+      - name: Build APK
+        script: |
+          cordova prepare $CORDOVA_PLATFORM
+          cordova build $CORDOVA_PLATFORM --debug
+    artifacts:
+      - platforms/android/app/build/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - dccarlobos@gmail.com
