@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.example.lotto" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+  <name>PH Lotto Results</name>
+  <description>Lotto results app built with Cordova wrapper</description>
+  <author>Your Name</author>
+
+  <content src="index.html" />
+
+  <platform name="android">
+    <allow-intent href="market:*" />
+  </platform>
+
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+</widget>
