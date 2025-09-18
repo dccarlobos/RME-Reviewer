@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .card {
+      background: #0b1220;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 500px;
+      margin: auto;
+      transition: background 0.3s, color 0.3s;
+    }
+    h1 {
+      color: #06b6d4;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 20px;
+      color: #94a3b8;
+    }
+    .share-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .share-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      font-size: 18px; 
+      font-weight: normal;
+    }
+    .share-btn:hover {
+      background: #06b6d4;
+    }
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1 {
+      color: #0f1724;
+    }
+    body.light p {
+      color: #333;
+    }
+    body.light .share-btn {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .share-btn:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Share This App</h1>
+    <p>Spread the word and share this app with your friends!</p>
+
+    <div class="share-buttons">
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" class="share-btn">Facebook</a>
+      <a href="https://twitter.com/intent/tweet?url=https://example.com&text=Check%20out%20this%20amazing%20app!" target="_blank" class="share-btn">Twitter</a>
+      <button class="share-btn" onclick="copyLink()">Copy Link</button>
+      <button class="share-btn" onclick="shareViaPhone()">Share via Phone</button>
+      <button class="share-btn" id="backBtn">Back</button>
+    </div>
+  </div>
+
+  <script>
+    const appLink = "https://example.com"; // Palitan ng totoong link ng app mo
+
+    function copyLink() {
+      navigator.clipboard.writeText(appLink).then(() => {
+        alert("Link copied to clipboard!");
+      }).catch(() => {
+        alert("Failed to copy link.");
+      });
+    }
+
+    function shareViaPhone() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'RME Reviewer',
+          text: 'Check out this RME Reviewer App!',
+          url: appLink
+        }).then(() => {
+          console.log('Shared successfully');
+        }).catch((err) => {
+          console.log('Error sharing:', err);
+        });
+      } else {
+        alert("Sharing not supported on this device/browser. You can use 'Copy Link'.");
+      }
+    }
+
+    // Back button
+    document.getElementById('backBtn').onclick = () => {
+      window.location.href = 'settings.html';
+    };
+
+    // Apply saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+</body>
+</html>

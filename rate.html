@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate 5 Stars - RME Reviewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .card {
+      background: #0b1220;
+      padding: 30px 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: 100px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      transition: background 0.3s;
+    }
+    h1 {
+      color: #06b6d4;
+      margin-bottom: 20px;
+    }
+    p {
+      margin-bottom: 20px;
+      color: #94a3b8;
+    }
+    .stars {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .star {
+      font-size: 40px;
+      color: #444;
+      cursor: pointer;
+      transition: color 0.3s;
+      margin: 0 5px;
+    }
+    .star.selected {
+      color: #facc15; /* Gold */
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #06b6d4;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1 {
+      color: #0f1724;
+    }
+    body.light p {
+      color: #333;
+    }
+    body.light .star {
+      color: #ccc;
+    }
+    body.light .star.selected {
+      color: #facc15;
+    }
+    body.light button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light button:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Rate RME Reviewer</h1>
+    <p>Tap the stars and give us a 5-star rating!</p>
+
+    <div class="stars" id="stars">
+      <span class="star" data-value="1">&#9733;</span>
+      <span class="star" data-value="2">&#9733;</span>
+      <span class="star" data-value="3">&#9733;</span>
+      <span class="star" data-value="4">&#9733;</span>
+      <span class="star" data-value="5">&#9733;</span>
+    </div>
+
+    <button id="rateBtn">Submit Rating</button>
+    <button id="backBtn">Back</button>
+  </div>
+
+  <script>
+    const stars = document.querySelectorAll('.star');
+    let selectedRating = 0;
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.getAttribute('data-value'));
+        updateStars();
+      });
+    });
+
+    function updateStars() {
+      stars.forEach(star => {
+        if (parseInt(star.getAttribute('data-value')) <= selectedRating) {
+          star.classList.add('selected');
+        } else {
+          star.classList.remove('selected');
+        }
+      });
+    }
+
+    document.getElementById('rateBtn').addEventListener('click', () => {
+      if (selectedRating === 0) {
+        alert("Please select a rating first!");
+      } else {
+        // Palitan ang link na ito sa actual Play Store link ng app mo
+        window.open("https://play.google.com/store/apps/details?id=com.example.app", "_blank");
+      }
+    });
+
+    // Back button
+    document.getElementById('backBtn').onclick = () => {
+      window.location.href = 'settings.html';
+    };
+
+    // Apply saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+</body>
+</html>
