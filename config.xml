@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+  <name>RME Reviewer</name>
+  <description>For RME Reviewer app built with Cordova wrapper</description>
+  <author email="youremail@example.com" href="https://yourwebsite.com">Don Carlo Carlobos</author>
+
+  <!-- Entry point -->
+  <content src="index.html" />
+
+  <!-- App preferences -->
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
+
+  <!-- Allow navigation and intents -->
+  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="market:*" />
+
+  <!-- Plugins -->
+  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.0" />
+  <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
+
+  <!-- App icon -->
+  <icon src="resources/icon.png" />
+
+  <!-- Android platform-specific settings -->
+  <platform name="android">
+
+    <!-- Internet permission for InAppBrowser -->
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission[@android:name='android.permission.INTERNET']">
+      <uses-permission android:name="android.permission.INTERNET" />
+    </edit-config>
+
+    <!-- Icons -->
+    <icon src="resources/icon.png" density="ldpi" />
+    <icon src="resources/icon.png" density="mdpi" />
+    <icon src="resources/icon.png" density="hdpi" />
+    <icon src="resources/icon.png" density="xhdpi" />
+    <icon src="resources/icon.png" density="xxhdpi" />
+    <icon src="resources/icon.png" density="xxxhdpi" />
+
+    <!-- Splash screens -->
+    <splash src="resources/splash.png" density="port-ldpi"/>
+    <splash src="resources/splash.png" density="port-mdpi"/>
+    <splash src="resources/splash.png" density="port-hdpi"/>
+    <splash src="resources/splash.png" density="port-xhdpi"/>
+    <splash src="resources/splash.png" density="port-xxhdpi"/>
+    <splash src="resources/splash.png" density="port-xxxhdpi"/>
+
+  </platform>
+
+</widget>
