@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>RME Reviewer</name>
+  <description>For RME Reviewer app built with Cordova wrapper</description>
+  <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">Don Carlo Carlobos</author>
+
+  <!-- Entry point -->
+  <content src="index.html" />
+
+  <!-- App preferences -->
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+
+  <!-- Hide spinner -->
+  <preference name="ShowSplashScreenSpinner" value="false" />
+
+  <!-- Android 12+ splash screen -->
+  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash_static.png" />
+  <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
+  <preference name="AndroidWindowSplashScreenDuration" value="2000" />
+
+  <!-- Allow navigation and intents -->
+  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="market:*" />
+
+  <!-- App icon -->
+  <icon src="resources/icon.png" />
+
+  <!-- Android platform-specific settings -->
+  <platform name="android">
+
+    <!-- Icons -->
+    <icon src="resources/icon.png" density="ldpi" />
+    <icon src="resources/icon.png" density="mdpi" />
+    <icon src="resources/icon.png" density="hdpi" />
+    <icon src="resources/icon.png" density="xhdpi" />
+    <icon src="resources/icon.png" density="xxhdpi" />
+    <icon src="resources/icon.png" density="xxxhdpi" />
+
+  </platform>
+</widget>
