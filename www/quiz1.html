@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RME Reviewer - Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .card {
+      background: #0b1220;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 600px;
+      margin: auto;
+      transition: background 0.3s;
+    }
+    h1 {
+      color: #06b6d4;
+    }
+    select {
+      margin-top: 15px;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+    .question {
+      font-size: 18px;
+      margin: 40px 0 20px 0;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options button:hover {
+      background: #06b6d4;
+    }
+    .correct {
+      background: #10b981 !important;
+    }
+    .wrong {
+      background: #ef4444 !important;
+    }
+    #nextBtn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #06b6d4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+    }
+    #score {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #94a3b8;
+    }
+    #status {
+      margin: 15px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ef4444;
+    }
+
+    /* Small buttons */
+    .small-btns {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .small-btns button {
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #1e293b;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .small-btns button:hover {
+      background: #06b6d4;
+    }
+
+    .ad-space {
+      margin: 10px 0;
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1 {
+      color: #0f1724;
+    }
+    body.light .options button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .options button:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+    body.light #score {
+      color: #333;
+    }
+    body.light #status {
+      color: #b91c1c;
+    }
+    body.light .small-btns button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .ad-space {
+      background: #e2e8f0;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>RME Reviewer</h1>
+
+    <!-- Ad space 1 -->
+    <div class="ad-space">Ad Space 1</div>
+
+    <!-- Mode Dropdown -->
+    <label for="modeSelect">Mode:</label>
+    <select id="modeSelect" disabled>
+      <option value="all">All Questions</option>
+      <option value="wrong">Only Didn't Know</option>
+    </select>
+
+    <div id="status"></div>
+
+    <div id="quiz" style="display:none;">
+      <div class="question" id="question">Loading...</div>
+      <div class="options" id="options"></div>
+      <button id="nextBtn">Next</button>
+      <div id="score"></div>
+
+      <!-- Reset, Shuffle & Back Buttons Centered -->
+      <div class="small-btns">
+        <button id="resetBtn">Reset</button>
+        <button id="shuffleBtn">Shuffle</button>
+        <button id="backBtn">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad space 2 (bottom, outside card) -->
+  <div class="ad-space">Ad Space 2</div>
+
+  <script>
+    let allQuestions = [
+      {
+        question: "What is the standard frequency of electricity in the Philippines?",
+        options: ["50 Hz", "60 Hz", "120 Hz", "100 Hz"],
+        answer: 1
+      },
+      {
+        question: "In Ohm’s Law, what does V = IR stand for?",
+        options: [
+          "Voltage = Current × Resistance",
+          "Voltage = Current ÷ Resistance",
+          "Voltage = Power ÷ Current",
+          "Voltage = Energy × Time"
+        ],
+        answer: 0
+      },
+      {
+        question: "What color is used for grounding conductors?",
+        options: ["Red", "Yellow", "Green", "Blue"],
+        answer: 2
+      },
+      {
+        question:"Bends in type SNM cable (Shielded Non-metallic sheathed cable) must be such that the inner radius shall not be less than _____ times the cable diameter.",
+        options:["4","5","6","7"],
+        answer:1
+      },
+      {
+       question:"Unless otherwise specified conductors mentioned in the PEC shall be of the following, except",
+       options:["copper","aluminum clad","aluminum","copper clad"],
+       answer:1
+       },
+       {
+       question:"Where installed in raceways, conductors of size ____ sq.mm and larger shall be stranded.",
+       options:["3.5","8","5.5","14"],
+       answer:1
+       },
+       {
+       question:"What conductors size comprising each phase, neutral or grounded conductor are permitted to be connected in parallel?",
+       options:["38 sq.mm or larger","38 sq.mm or smaller","50 sq.mm or larger","20 sq.mm or smaller"],
+       answer:2
+       },
+       {
+       question:"Ambient temperature is define as the",
+       options:["short circuit temperature of the conductor","maximum heat the insulation can withstand","temperature of the area surrounding the conductor","insulating rating of conductor"],
+       answer:2
+       },
+       {
+       question:"For conductors having a voltage rating up to 2000 volts, the minimum size of copper conductors shall be ____ mm.",
+options:["2.0","8.0","5.5","8.0"],
+answer:0
+},
+{
+question:"If the conductors voltage rating range from 2001 to 5000 volts, the minimum conductor size shall be ____ sq.mm",
+options:["3.5","8.0","14","22"],
+answer:1
+},
+{
+question:"For type V-cables, the minimum size shall be ____ sq.mm",
+options:["3.5","5.5","8.0","14.0"],
+answer:2
+},
+{
+question:"Solid aluminum conductors 8.0 sq.mm, 5.5 sq.mm and 3.5 sq.mm shall be made of an AA-____ series electrical grade",
+options:["5000","7000","8000","9000"],
+answer:2
+},
+{
+question:"For type MI conductor, the maximum operating temperature is ____ deg.C",
+options:["65","75","85","90"],
+answer:3
+},
+{
+question:"For type MI conductor, the insulated material used is",
+options:["propylene","magnesium oxide","paper","ethylene"],
+answer:1
+},
+{
+question:"The maximum operating temperature of type TFE conductor is ____ deg.C",
+options:["90","120","175","250"],
+answer:3
+},
+{
+question:"The letter W of type THW conductor means",
+options:["wet","water","moisture","weather"],
+answer:2
+},
+{
+question:"The maximum operating temperature type THW conductor is ____ deg.C",
+options:["65","75","90","150"],
+answer:1
+},
+{
+question:"The maximum operating temperature of type TW conductor is ____ deg.C",
+options:["60","75","85","90"],
+answer:0
+},
+{
+question:"The ampacity of 8.0 sq.mm type TW single insulated, rated 0-2000V in free air conductor based on ambient temperature of 30 deg.C is ____ amperes",
+options:["35","40","55","45"],
+answer:2
+},
+{
+question:"When there are 6 conductors in a raceway or cable the ampacity reduction factor is ____ percent.",
+options:["70","80","90","95"],
+answer:1
+},
+{
+question:"When there are 7 through 9 conductors in a raceway or cable, the ampacity reduction factor is ____ %.",
+options:["90","80","70","60"],
+answer:2
+},
+{
+question:"A neutral conductor which carries only the umbalance from other conductors as in the case of normally balanced circuits of three or more conductors shall",
+options:["counted as 1","counted as 2","counted as 3","not be counted"],
+answer:3
+},
+{
+question:"With two conductors installed in a conduit, up to what percent of its cross section the conduit can be filled to?",
+options:["25%","31%","42%","63%"],
+answer:1
+},
+{
+question:"In walls or ceiling concrete, tile or other non combustible material, boxes and fittings shall be installed that the front edge of the box or fitting will not set back out of the finished surface more than ____ mm.",
+options:["4.5","5.6","6.4","6.8"],
+answer:2
+},
+{
+question:"Conduit bodies enclosing 1 sq.mm conductors or smaller should have a cross-sectional area ____ the cross-sectional area of the largest conduit or tubing to which it is attached",
+options:["equal to exactly 1.5 times","not less than twice","not less  than twice of","exactly twice"],
+answer:2
+},
+{
+question:"In all types of concealed wiring installed in buildings of all types of construction, boxes used for ceiling outlets are",
+options:["square","round","hexagonal","octagonal"],
+answer:3
+},
+{
+question:"When computing the box capacity in cubic cm, 3 equipment conductors are counted as ____ conductors",
+options:["1","2","3","4"],
+answer:0
+},
+{
+question:"An enclosed designed either for surface or flush mounting and provided with a frame, mat or trim in which a swinging doors are or may be hung",
+options:["cabinet","switchboard","panel-board","metallic box"],
+answer:0
+},
+{
+question:"Conductors shall not be installed in locations where the operating temperature will exceed that specified by the code for the type of ____ used.",
+options:["insulation","wiring","conductors","installation"],
+answer:0
+},
+{
+question:"A conductor having one or more layer of non-conducting material that are not considered as electrical insulation",
+options:["bare","insulated","isolated","covered"],
+answer:3
+},
+{
+question:"Sheet steel boxes not over 1640 cu. cm. in size shall be made from steel not less than ____ mm thick.",
+options:["1.2","1.4","1.6","1.8"],
+answer:2
+},
+{
+question:"In pull boxes or junction boxes having any dimension over ____ mm, all conductors shall be cabled or racked up in an approved manner.",
+options:["1400","1600","1800","1500"],
+answer:2
+},
+{
+question:"The distance between raceway entries enclosing the same conductor shall not be less than ____ times  trade diameter of the larger raceway.",
+options:["five","six","seven","eight"],
+answer:1
+},
+{
+question:"Where angle on U pulls are made the distance between each raceway inside the box and opposite wall shall not be less than ____ times the trade diameter of the larger raceway.",
+options:["five","six","seven","eight"],
+answer:1
+},
+{
+question:"In straight pulls the length of the box shall not be less than the ____ times the trade diameter of largest raceway.",
+options:["5","6","7","8"],
+answer:3
+},
+{
+question:"Boxes intended to enclose flush devices shall have an internal depth of not less than ____ mm.",
+options:["20","24","28","30"],
+answer:1
+},
+{
+question:"Plaster, dry-board surfaces that are broken or incomplete shall be repaired so that there will be no gaps or open spaces greater than ____ mm at the edge of the box or fitting",
+options:["3.2","3.6","3.8","4.0"],
+answer:0
+},
+{
+question:"The maximum no. of 8 sq.mm conductors permitted in 100 x 32 square outlet box is",
+options:["5","6","7","8"],
+answer:1
+},
+{
+question:"The maximum no. of 5.5 sq.mm conductors permitted in a 100 x 40 round or octagonal outlet box is",
+options:["5","6","7","8"],
+answer:1
+},
+{
+question:"The maximum no. of 2.0 sq.mm conductors permitted in a 100 x 32 round or octagonal outlet box is",
+options:["5","6","7","8"],
+answer:1
+},
+{
+question:"Where metal plugs or plates are used with non-metallic cabinets or cut-out boxes, they shall be recessed at least ____ mm from the outer surface.",
+options:["4.8","5.0","6.4","6.8"],
+answer:2
+},
+{
+question:"In walls of concrete, tile, or other non-combustible material, cabinets shall be so installed so that the front edge of the cabinet will not set back of the finished surface more than ____ mm.",
+options:["4.8","5.0","6.4","6.8"],
+answer:2
+},
+{
+question:"For angle on U pulls on systems over 600 volts nominal, the distance between each cable or conductor entry inside the box and the opposite wall of the box shall not be less than ____ times of the outside diameter of the largest cable or conducor.",
+options:["36","38","40","42"],
+answer:0
+},
+{
+question:"For use on system over 600 volts nominal, the length of the box for straight pulls shall not be less than ____ times the outside diameter, or sheath, or the largest shielded or dead covered conductor or cable entering the box.",
+options:["36","48","42","30"],
+answer:1
+},
+{
+question:"Other than at points of support, there shall be an air space of at least ____mm between the base of the device and the wall of any metal cabinet or cut-out box in which the device is mounted.",
+options:["1.5","2.5","2.0","1.75"],
+answer:2
+},
+{
+question:"For cabinets and cut-out boxes constructed of sheet steel, the metal thickness shall shall not be less than ____mm uncoated.",
+options:["1.20","1.35","1.55","1.65"],
+answer:1
+},
+{
+question:"Metal boxes not made of sheet steel, die cast or permanent mold aluminum, brass or bronze, shall have a wall thickness not less than ____ mm.",
+options:["1.6","2.4","2.8","3.2"],
+answer:3
+},
+{
+question:"Outlet boxes used whose gas outlet are present shall be fastened to the ____ as to be mechanically secured.",
+options:["wall near the outlet","ceiling","lowest portion of the wall","gas pipes"],
+answer:3
+},
+{
+question:"The maximum no. of 14 sq.mm conductors permitted in 100 x 40 square outlet box is",
+options:["4","6","5","7"],
+answer:0
+},
+{
+question:"No outlet box shall have an external depth of less than ____mm.",
+options:["16","12","18","24"],
+answer:1
+},
+{
+question:"Where non-metallic sheathed cable is used, the cable assembly shall extend into the box no less than ____mm through a non-metallic sheathed cable knock-out opening",
+options:["6.4","5.8","6.8","5.4"],
+answer:0
+},
+{
+question:"Auxaliary gutters shall not contain more than ____ current carrying conductors at any cross section",
+options:["15","20","25","30"],
+answer:3
+},
+{
+question:"Gutters shall be supported throughout thier entire length at suitable intervals preferably not exceeding ____ mm.",
+options:["1000","1200","1375","1500"],
+answer:3
+},
+{
+question:"An auxialiary gutter shall not extend greater distance than ____mm beyond the equipment which it supplements.",
+options:["7500","9100","9500","8200"],
+answer:1
+},
+{
+question:"In which wiring method, non metallic boxes over 1640 cubic centimeters are permitted?",
+options:["metal raceways","open wiring insulators","non metallic sheathed cable","rigid non metal conduit"],
+answer:0
+},
+{
+question:"____ boxes shall be used by conduits or connectors requiring the use of locknuts and bushings are to be connected to the side of the box.",
+options:["square","round","octagonal","masonry box gang"],
+answer:1
+},
+{
+question:"Ther shall be an air space of at Ieast ____ mm between the walls, back, gutter partition, of the metal or door of any cabinet or cut-out box and the nearest exposed current carrying parts of devices mounted within cabinet where the voltage does not exceed 250 Volts. This spacing shall be increased to at least ____ mm for 251 to 600 V nominal.",
+options:["12, 24","13, 26","12, 18","13, 20"],
+answer:1
+},
+{
+question:"Doors of cabinets and cut-out boxes shall have an air space of at least ____ mm between any energized metal post.",
+options:["25","10","15","18"],
+answer:0
+},
+{
+question:"In switchboards, the conduit of raceways, including their fittings, shall not rise more than ____ mm above the bottom of the enclosure",
+options:["60","70","75","80"],
+answer:2
+},
+{
+question:"Corners joints of auxillary gutter shall be made tight and where assembly is held together by rivets or bolts shall be spend not more than ____ mm apart",
+options:["100","150","200","300"],
+answer:3
+},
+{
+question:"Within an auxillary gutter, the conductors, including splices and taps, shall not fill the gutter to more than ____ percent of its area",
+options:["25","33","50","75"],
+answer:3
+},
+{
+question:"A clearance of not less than ____ mm shall be secured between any bare current carry metal parts and any metal surface within an auxillary gutter",
+options:["26","18","32","12"],
+answer:0
+},
+{
+question:"For aluminum bars in auxillary gutters, the current carried continuously shall not exceed ____ ampere per sq.cm section of the conductors",
+options:["109","113","115","120"],
+answer:0
+},
+{
+question:"The current carried continuously in bare copper bars in auxillary gutters shall not exceed ____ amperes per sq.cm of the cross-section of the conductor",
+options:["125","155","160","110"],
+answer:1
+},
+{
+question:"The sum of the cross-sectional areas of all the contained conductors at any cross-section of an auxillary gutter shall not exceed ____ percent of the cross-sectional area of the auxillary gutters",
+options:["10","15","20","25"],
+answer:2
+},
+{
+question:"In Class I, hazardous locations, the minimum thickness of the sealing compound shall not be less than",
+options:["10mm","12mm","16mm","18mm"],
+answer:2
+},
+{
+question:"Sealing compound is employed in mineral insulated cable in a Class I location for the purpose of",
+options:["excluding moisture","preventing passage of gas or vapor","limiting extent of possible explosion","preventing escape of insulating powder"],
+answer:0
+},
+{
+question:"Locations where combustible fibers are stored are designated as",
+options:["Class III, Division 1","Class III, Division 2","Class II, Division 1","Class II, Division 2"],
+answer:1
+},
+{
+question:"Locations where combustible dust is normally in the air are designated as",
+options:["Class II, Division 1","Class I, Division 1","Class II, Division 2","Class III, Division 2"],
+answer:0
+},
+{
+question:"Instruments, pilot lights, potential transformers, and other switchboard devices with potential coils shall be provided by a circuit that is protected by standard overcurrent devices rated up to ____ amperes",
+options:["10","15","20","30"],
+answer:1
+},
+{
+question:"The panels of switchboards shall be made of ____ non-combustible materials",
+options:["waterproof","fireproof","rain-tight","moisture resistant"],
+answer:3
+},
+{
+question:"The maximum number of over-current devices in a lighting and appliance branch-circuit panel board shall not exceed",
+options:["30","36","42","48"],
+answer:3
+},
+{
+question:"In Class II, Division, 1 locations, no transformer or capacitors shall be installed in location where dust from ____ may be present",
+options:["any of these","magnesium","aluminum","aluminum bronze powder"],
+answer:0
+},
+{
+question:"In Class II, Division 2 locations transformers containing askarel and rated in excess of 25kVA shall have an air space of not less than ____ mm between the transformer cases and any combustible material",
+options:["100","150","120","180"],
+answer:1
+},
+{
+question:"Store rooms and similar areas adjacent to aircraft hangers but effectively isolated shall be designed as",
+options:["Non-hazardous","Class I, Division 2","Class II, Division 1","Class II, Division 2"],
+answer:0
+},
+{
+question:"In Class II location where eletrically conducting dust is present flexible connection at motors could be made with",
+options:["liquid-tight flexible metal conduit","flexible metal conduit","type AC armored cable","hard usage cord"],
+answer:0
+},
+{
+question:"In Class I, Division 1 and 2, sealing compounds shall not have a melting point of less than",
+options:["75 deg.C","50 deg.C","66 deg.C","93 deg.C"],
+answer:3
+},
+{
+question:"Which of the following methods is approved for Class I, Division 1 hazardous location",
+options:["any of these","threaded rigid metal conduit","threaded steel intermediate metal conduit","MI cable with termination fittings"],
+answer:0
+},
+{
+question:"A motor enclosure so designed and constructed to contain sparks or flashes that may ignite the surroundings gas or vapor",
+options:["explosion proof","fire proof","non-ignitable","air cooled"],
+answer:0
+},
+{
+question:"If the impedance triangles of two transformers operating in parallel are not identical in shape and size, the two transformer will",
+options:["share the load unequally","get heated unequally","have a circulatory secondary current even when unloaded","run with different power factor"],
+answer:3
+},
+{
+question:"For raceways 20mm thread size or larger containing conductors 22 sq.mm or larger the lenght of boxes in straight pulls shall not be less than ____ times the trade diameter of the largest raceway",
+options:["8","5","4","10"],
+answer:0
+},
+{
+question:"A typical warning notice in aircraft hangers: WARNING-KEEP ____ METERS CLEAR OF A AIRCRAFT ENGINES AND FUEL TANK AREAS",
+options:["3.5","1.0","2.0","1.5"],
+answer:3
+},
+{
+question:"Which of the following rotating electrical machinery is not permitted to be installed in Class III locations",
+options:["splash proof type","totally enclosed fan cooled","totally enclosed pipe-ventilated","totally enclosed non-ventilated"],
+answer:0
+},
+{
+question:"In Class III, Division 2, locations generators, motors, and other rotating electrical machinery should be totally",
+options:["enclosed fan-cooled","any of these","enclosed non-ventilated","enclosed pipe-ventilated"],
+answer:1
+},
+{
+question:"In Class II, Division 1, metal pipe should be",
+options:["welded","all of these","riveted and soldered","bolted and soldered"],
+answer:1
+},
+{
+question:"In Class II, Division 1 location which of the following approved wiring methods where installed shall be supported in a manner to avoid tensile stress at termination fittings",
+options:["all of these","type MI cable","threaded rigid metal conduit","threaded steel intermediate metal conduit"],
+answer:1
+},
+{
+question:"No-load test on a transformer is carried out to determine",
+options:["copper loss","magnitizing current","magnetizing current and no-load loss","efficiency of the transformer"],
+answer:2
+},
+{
+question:"The main purpose of open-circuit test on a transformer is to determine its",
+options:["copper loss","coresloss","total loss","insulation resistance"],
+answer:1
+},
+{
+question:"Transformers are rated in KVA instead of KW because",
+options:["load power factor is often not known","KVA is fixed whereas KW depends on load p.f.","total transformer loss depends on volt ampere","it has become customary"],
+answer:2
+},
+{
+question:"At relatively light loads, transformer efficiency is low because",
+options:["secondary output is low","transformer losses are high","fixed loss is high in proportion to the output","Cu loss is small"],
+answer:2
+},
+{
+question:"The ordinary efficiency of a given transformer is maximum when",
+options:["it runs at half full-load","it runs at full load","its Cu loss equals iron loss","it runs slightly overload."],
+answer:2
+},
+{
+question:"The kVA ratings of an ordinary 2-winding transformer is increased when connected as an auto transformer because",
+options:["trasformation ratio is increased","secondary voltage is increased","energy is transfered both inductively and conductively","secondary c current is increased"],
+answer:2
+},
+{
+question:"The savings in Cu achieved by converting a 2-winding transformer into an autotransformer is determined by",
+options:["voltage transformation ratio","load on the secondary","magnetic quality of core material","size of the transformer core"],
+answer:0
+},
+{
+question:"A shunt dc motor works on ac mains",
+options:["unsatisfactorily","satisfactorily","not at all","none of these"],
+answer:0
+},
+{
+question:"A transformer transforms",
+options:["frequency","voltage","current","voltage and current"],
+answer:3
+},
+{
+question:"Which of the following is not a basic element of a transformer?",
+options:["core","primary winding","secondary winding","mutual flux"],
+answer:3
+},
+{
+question:"An ideal transformer",
+options:["windings have no resistance","core has no losses","core has infinite permeability","all of these"],
+answer:3
+},
+{
+question:"The main purpose of using core in the transformer is to",
+options:["decrease iron losses","prevent eddy current losses","eliminate magnetic hysteresis","decrease reluctance of the commom magnetic circuit"],
+answer:3
+},
+{
+question:"A fransformer having 1000 primary turns is connected to a 250 V ac supply. For a secondary voltage of 400 V, the number of secondary turns should be",
+options:["1600","250","400","1250"],
+answer:0
+},
+{
+question:"In performing short circuit test of a transformer",
+options:["the hgh voltage side usually short circuited","the low voltage side usually short circuited","any side is short circuited with preference","none of these"],
+answer:1
+},
+{
+question:"The primary reason why open-circuit test is performed on the low voltage winding of the transformer is that it",
+options:["draws sufficiently large no-load current for convenient reading","requires least voltage to perform the test","needs maximum power input","involves less coreloss"],
+answer:0
+},
+{
+question:"When load is removed, ____ motor will run at the highest speed.",
+options:["shunt","commulative compound","differential compound","series"],
+answer:3
+},
+{
+question:"A series motor is best suited for driving",
+options:["lathes","cranes and hoists","shears and punches","machine tools"],
+answer:1
+},
+{
+question:"The dc series motor should never be switched on at no-load because",
+options:["the field current is zero","the machine does not pickup","the speed becomes dangerously high","it will take too long to accelerate"],
+answer:2
+}
+
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let wrongQuestions = [];
+    let mode = "all";
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreEl = document.getElementById("score");
+    const modeSelect = document.getElementById("modeSelect");
+    const quizEl = document.getElementById("quiz");
+    const statusEl = document.getElementById("status");
+    const resetBtn = document.getElementById("resetBtn");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const backBtn = document.getElementById("backBtn");
+
+    function getActiveQuestions() {
+      return mode === "all" ? allQuestions : wrongQuestions;
+    }
+
+    function loadQuestion() {
+      const active = getActiveQuestions();
+      if (active.length === 0) {
+        questionEl.textContent = "No questions to show in this mode.";
+        optionsEl.innerHTML = "";
+        nextBtn.style.display = "none";
+        return;
+      }
+      const q = active[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i, btn);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const active = getActiveQuestions();
+      const correct = active[currentQuestion].answer;
+      const buttons = optionsEl.querySelectorAll("button");
+      buttons.forEach((b, i) => {
+        if (i === correct) b.classList.add("correct");
+        if (i === selected && i !== correct) b.classList.add("wrong");
+        b.disabled = true;
+      });
+      if (selected === correct) {
+        score++;
+      } else {
+        if (!wrongQuestions.includes(active[currentQuestion])) {
+          wrongQuestions.push(active[currentQuestion]);
+        }
+      }
+      scoreEl.textContent = `Score: ${score} / ${allQuestions.length}`;
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      const active = getActiveQuestions();
+      currentQuestion++;
+      if (currentQuestion < active.length) {
+        loadQuestion();
+        nextBtn.style.display = "none";
+      } else {
+        questionEl.textContent = "Review Finished!";
+        optionsEl.innerHTML = "";
+        nextBtn.style.display = "none";
+      }
+    };
+
+    modeSelect.addEventListener("change", () => {
+      mode = modeSelect.value;
+      currentQuestion = 0;
+      loadQuestion();
+      nextBtn.style.display = "none";
+    });
+
+    // Reset quiz
+    resetBtn.onclick = () => {
+      currentQuestion = 0;
+      score = 0;
+      wrongQuestions = [];
+      scoreEl.textContent = "";
+      loadQuestion();
+      nextBtn.style.display = "none";
+    };
+
+    // Shuffle questions
+    shuffleBtn.onclick = () => {
+      allQuestions = allQuestions.sort(() => Math.random() - 0.5);
+      resetBtn.click();
+    };
+
+    // Back button
+    backBtn.onclick = () => {
+      window.location.href = "quiz.html";
+    };
+
+    function updateOnlineStatus() {
+      if (navigator.onLine) {
+        statusEl.textContent = "";
+        quizEl.style.display = "block";
+        modeSelect.disabled = false;
+        loadQuestion();
+      } else {
+        statusEl.textContent = "⚠️ You are offline. Please connect to the internet to start the quiz.";
+        quizEl.style.display = "none";
+        modeSelect.disabled = true;
+      }
+    }
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+
+    updateOnlineStatus();
+  </script>
+</body>
+</html>
