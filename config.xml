@@ -13,14 +13,14 @@
 
   <!-- Classic Cordova Splash (for Android 9–11) -->
   <preference name="SplashScreen" value="splash" />
-  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="SplashScreenDelay" value="2000" />
   <preference name="SplashMaintainAspectRatio" value="true" />
   <preference name="ShowSplashScreenSpinner" value="false" />
 
   <!-- Android 12+ splash screen -->
   <preference name="AndroidWindowSplashScreenAnimatedIcon" value="@mipmap/ic_launcher" />
   <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
-  <preference name="AndroidWindowSplashScreenDuration" value="3000" />
+  <preference name="AndroidWindowSplashScreenDuration" value="2000" />
 
   <!-- Allow navigation and intents -->
   <allow-navigation href="*" />
