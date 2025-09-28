@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>RME Reviewer</name>
+  <description>For RME Reviewer app built with Cordova wrapper</description>
+  <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">Don Carlo Carlobos</author>
+
+  <!-- Entry point -->
+  <content src="index.html" />
+
+  <!-- App preferences -->
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+
+  <!-- Classic Cordova Splash (for Android 9–11) -->
+  <preference name="SplashScreen" value="splash" />
+  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
+
+  <!-- Android 12+ splash screen -->
+  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="@mipmap/ic_launcher" />
+  <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
+  <preference name="AndroidWindowSplashScreenDuration" value="3000" />
+
+  <!-- Allow navigation and intents -->
+  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="market:*" />
+
+  <!-- Plugins -->
+  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.0" />
+  <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
+  <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+
+  <!-- App icon -->
+  <icon src="resources/icon.png" />
+
+  <!-- Android platform-specific settings -->
+  <platform name="android">
+
+    <!-- Internet permission for InAppBrowser -->
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/uses-permission[@android:name='android.permission.INTERNET']">
+      <uses-permission android:name="android.permission.INTERNET" />
+    </edit-config>
+
+    <!-- Icons -->
+    <icon src="resources/icon.png" density="ldpi" />
+    <icon src="resources/icon.png" density="mdpi" />
+    <icon src="resources/icon.png" density="hdpi" />
+    <icon src="resources/icon.png" density="xhdpi" />
+    <icon src="resources/icon.png" density="xxhdpi" />
+    <icon src="resources/icon.png" density="xxxhdpi" />
+
+    <!-- Splash images (classic Cordova) -->
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi"/>
+    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi"/>
+
+  </platform>
+</widget>
