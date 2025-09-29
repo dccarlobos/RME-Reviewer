@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RME Reviewer - Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .card {
+      background: #0b1220;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 600px;
+      margin: auto;
+      transition: background 0.3s;
+    }
+    h1 {
+      color: #06b6d4;
+    }
+    select {
+      margin-top: 15px;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
+    .question {
+      font-size: 18px;
+      margin: 40px 0 20px 0;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .options button:hover {
+      background: #06b6d4;
+    }
+    .correct {
+      background: #10b981 !important;
+    }
+    .wrong {
+      background: #ef4444 !important;
+    }
+    #nextBtn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #06b6d4;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+    }
+    #score {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #94a3b8;
+    }
+    #status {
+      margin: 15px 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #ef4444;
+    }
+
+    /* Small buttons */
+    .small-btns {
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .small-btns button {
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #1e293b;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .small-btns button:hover {
+      background: #06b6d4;
+    }
+
+    .ad-space {
+      margin: 10px 0;
+      background: #1e293b;
+      padding: 10px;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1 {
+      color: #0f1724;
+    }
+    body.light .options button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .options button:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+    body.light #score {
+      color: #333;
+    }
+    body.light #status {
+      color: #b91c1c;
+    }
+    body.light .small-btns button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .ad-space {
+      background: #e2e8f0;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>RME Reviewer</h1>
+
+    <!-- Ad space 1 -->
+    <div class="ad-space">Ad Space 1</div>
+
+    <!-- Mode Dropdown -->
+    <label for="modeSelect">Mode:</label>
+    <select id="modeSelect" disabled>
+      <option value="all">All Questions</option>
+      <option value="wrong">Only Didn't Know</option>
+    </select>
+
+    <div id="status"></div>
+
+    <div id="quiz" style="display:none;">
+      <div class="question" id="question">Loading...</div>
+      <div class="options" id="options"></div>
+      <button id="nextBtn">Next</button>
+      <div id="score"></div>
+
+      <!-- Reset, Shuffle & Back Buttons Centered -->
+      <div class="small-btns">
+        <button id="resetBtn">Reset</button>
+        <button id="shuffleBtn">Shuffle</button>
+        <button id="backBtn">Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad space 2 (bottom, outside card) -->
+  <div class="ad-space">Ad Space 2</div>
+
+  <script>
+    let allQuestions = [
+      {
+question:"In which of the following conditions type NM cable can be installed",
+options:["where exposed to corrosive fumes","in exposed and concealed works normally in dry location","where embedded in masonry, concrete, adobe fill-in plaster","in a shallow case of masonry, concrete, adobe and covered with plaster on similar finish"],
+answer:1
+},
+{
+question:"A type of cable identified for underground use, having a moisture resistant covering, but not required to have a flame-retardant covering",
+options:["SE","USE","SNM","UP"],
+answer:1
+},
+{
+question:"It is an assembly of parallel conductors formed integrally with an insulating material web designed for field installation in metal surface raceway",
+options:["type FC","type TC","type UF","type FCC"],
+answer:0
+},
+{
+question:"Flat cable assemblies shall consists of either ____ conductors. Which of the following is not ‘correct",
+options:["2","3","4","6"],
+answer:3
+},
+{
+question:"Flat cable assemblies shall have conductors of ____ mm² special stranded wires.",
+options:["3.5","5.5","2.0","8.0"],
+answer:1
+},
+{
+question:"Type FCC can be used in",
+options:["outdoors or in wet location","any hazardous location","damp location","residential, institutional and hospital buildings"],
+answer:2
+},
+{
+question:"The voltage between ungrounded conductors used in FCC systems shall not exceed ____ volts",
+options:["110","220","300","440"],
+answer:2
+},
+{
+question:"Aerial cable shall have a clearance of not less than ____ mm above floor areas accessible to pedestrian traffic, and not less than ____ mm above floor areas accessible to vehicular traffic",
+options:["3000, 4000","3100, 4300","3200, 4200","3300, 4500"],
+answer:1
+},
+{
+question:"Cable suspended over work benches, not accessible to pedestrian traffic shall have a clearance of not less than ____ mm above floor",
+options:["3000","2000","2200","2500"],
+answer:3
+},
+{
+question:"Type MV is a single, or multiconductor solid dielectric insulated cable rated ____ volts or higher",
+options:["2001","5501","4001","3001"],
+answer:0
+},
+{
+question:"A factory assembly of one or more conductors, each individually insulated and enclosed in a loose fit. Non-metallic flexible conduit as an integrated gas spacer cable rated 0-600 volts",
+options:["Type MV","Type FC","Type IGS","Type FCC"],
+answer:2
+},
+{
+question:"It is a fabricated assembly of insulated conductors in a flexible metallic enclosure",
+options:["type AC cable","type MV cable","type NM cable","type NMc cable"],
+answer:0
+},
+{
+question:"In some cases, copper conductors are coated in order to prevent",
+options:["heating","chemical reaction","short circuit","capacitive reactance"],
+answer:1
+},
+{
+question:"The use of type AC cable is prohibited in the following except",
+options:["motion picture studios","in dry location, for under plaster extension","where exposed to corrosive fumes or vapors","in theaters and similar location"],
+answer:1
+},
+{
+question:"The radius of the core of the inner edge of any bend shall not be less than ____ times the diameter of the type AC cable",
+options:["7","6","5","8"],
+answer:2
+},
+{
+question:"Exposed runs of type AC cable shall closely follow the surface of the building finish or on running boards except of its length is not more than _____ mm of terminals where flexibility is necessary",
+options:["450","500","550","600"],
+answer:3
+},
+{
+question:"It is a factory assembly of one or more conductors, each individually insulated and enclosed in a metallic sheath of interlocking tapes or a smooth corrugated tube",
+options:["type MI","type MC","type AC","type SNM"],
+answer:1
+},
+{
+question:"Type MI cable shall be securely supported at intervals not exceeding ____ mm by straps, staples, hangers, or similar fittings to designed and installed as not to damage the cable",
+options:["1500","1600","1800","2000"],
+answer:2
+},
+{
+question:"Bends in type MI cable shall be so made as not to damage the cable. The radius of the inner edge of any bend shall no be ____ times the cable diameter",
+options:["7","6","5","8"],
+answer:2
+},
+{
+question:"In each dwelling unit, the unit feeder load shall be computed at ____ volt-amperes for each 2 wire small appliance branch circuit",
+options:["1500","1800","1200","2000"],
+answer:0
+},
+{
+question:"When using optional calculation method for a dwelling unit service, all other load above the initial 10 kW is to be assessed at ____ %",
+options:["40","50","60","75"],
+answer:0
+},
+{
+question:"Conduits bodies enclosing 14 mm² conductors or smaller shall have a cross-sectional area ____ the cross-sectional area of the largest conduit to which it is attached",
+options:["equal","125 percent","not less than twice","150 percent"],
+answer:2
+},
+{
+question:"For open wiring on insulators, flexible metallic tubing used must be continuous in lengths not exceeding ____ mm and secured to the surface by straps at intervals exceeding ____ mm",
+options:["4500, 1500","4000, 13004","500, 1300","4000, 1000"],
+answer:2
+},
+{
+question:"Conductors supports in open wiring shall be installed within ____ mm from a tap or splice, within ____ mm of a dead-end connection to a rossette, lamp-holder or receptacle",
+options:["150, 300","120, 250","150, 250","200, 300"],
+answer:0
+},
+{
+question:"Conductors within ____ mm from the floor shall be considered exposed to physical damage",
+options:["1500","2000","2500","1000"],
+answer:1
+},
+{
+question:"Supports of rigid non-metallic conduit having an outside diameter of 110 mm shall have a maximum spacing between supports of ____ mm",
+options:["1500","1800","2100","2400"],
+answer:2
+},
+{
+question:"Supports of rigid non-metallic conduit having and outside diameter of 160 mm shall have a maximum spacing between supports of ____ mm",
+options:["1500","1800","2100","2400"],
+answer:3
+},
+{
+question:"Rigid non-metallic shal be securely fastened within ____ mm of each box, cabinet, or other termination",
+options:["800","900","950","1000"],
+answer:1
+},
+{
+question:"Non-metallic extensions shall not be used in the following, except",
+options:["in unfinished basement attics, or roop spaces","where subject to corrosive vapors","when exposed and in dry location","where run through a floor of partition"],
+answer:2
+},
+{
+question:"Non-metallic surface extension shall be secured in place by approve means of intervals not exceeding ____ mm",
+options:["100","150","200","250"],
+answer:2
+},
+{
+question:"Intermediate supports of aerial cable shall be provided at not more than ____ meter intervals",
+options:["4","5","6","7"],
+answer:2
+},
+{
+question:"The rating of a branch circuit serving continuous loads such as store lighting and similar load shall not be less than the non-continuous load plus ____ percent of the continuous load",
+options:["100","110","120","125"],
+answer:3
+},
+{
+question:"Appliance outlets installed in a dwelling unit for specific appliances, such as laundry equipment's, shall be installed within ____ mm of the intended location of the appliance",
+options:["1200","1500","1800","2000"],
+answer:2
+},
+{
+question:"On constructing sites a box shall not be required for splices or junction connections where the circuit conductor are",
+options:["multiconductor cord","cable assemblies","open conductors","any of these"],
+answer:3
+},
+{
+question:"Branch circuits larger than ____ amperes shall supply only non-lighting outlet loads",
+options:["50","30","40","60"],
+answer:0
+},
+{
+question:"In kitchens and dining areas of dwelling units, a receptacle outlet shall be installed at each corner space wider than ____ mm",
+options:["250","300","80","350"],
+answer:1
+},
+{
+question:"For hallways, of 3000 mm or more in length at least ____ receptacle is required",
+options:["1","2","3","4"],
+answer:0
+},
+{
+question:"Receptacle for heating, air-conditioning, and refrigeration equipment shall be located on the same level and within ____ m from the equipment",
+options:["10","15","20","23"],
+answer:3
+},
+{
+question:"For receptacle outlets, each single or multiple receptacle on one strap shall be considered at not less than ____ volt amperes",
+options:["180","200","225","250"],
+answer:0
+},
+{
+question:"For a dwelling unit having a floor area of more than 150 sq.meters, the feeder and service loads with ____ % demand factor on the air-conditioning load and lighting load",
+options:["75","80","90","100"],
+answer:3
+},
+{
+question:"Overhead conductors for festoon lighting shall not be smaller than ____ mm²",
+options:["2.0","3.5","5.5","8.0"],
+answer:1
+},
+{
+question:"The unit lighting load for dwelling unit, expressed in volt-amperes per square meter shall be",
+options:["16","28","24","8"],
+answer:2
+},
+{
+question:"For the kitchen small appliance load in dwelling occupancies the code requires no less than",
+options:["two 20-amp circuits","one 15-amp circuits","two 15-amp circuits","one 20-amp circuits"],
+answer:3
+},
+{
+question:"For show window lighting, a load of not less than ____ volt-amperes shall be included for each meter of show window measured horizontally along its base",
+options:["500","450","600","400"],
+answer:2
+},
+{
+question:"To provide for small appliance load in dwelling units, the feeder should be computed at",
+options:["1500 watts","2000 watts","1200 watts","1000 watts"],
+answer:0
+},
+{
+question:"The service or feeder capacity necessary to provide for six %-kW household electric clothes dryer is",
+options:["30500 kW","28500 kW","27500 kW","25000 kW"],
+answer:2
+},
+{
+question:"When using optional calculation method for dwelling unit service, all other loads above the initial 10 KW is to be assessed at",
+options:["10%","40%","30%","25%"],
+answer:1
+},
+{
+question:"Where a feeder supplies continuous loads or any combination of continuous and noncontinuous load, the rating of the over-current device shall not less than the noncontinuous load plus ____ % of the continuous load",
+options:["125","150","110","115"],
+answer:0
+},
+{
+question:"Fixed electric space heating loads shall be computed at ____ % of the total connected load",
+options:["80","100","115","70"],
+answer:1
+},
+{
+question:"In each dwelling unit, the feeder load shall be computed at ____ volt-ampere for each two-wire small appliance branch circuit",
+options:["1500","1000","1200","2000"],
+answer:0
+},
+{
+question:"The load for household electric clothes dryers in a dwelling unit(s) shall be ____ volt amperes",
+options:["4000","3000","5000","4500"],
+answer:2
+},
+{
+question:"Ungrounded conductor shall have an ampacity of not less than ____ for one-family dwelling with six or more 2-wire branch circuits, ____ for one family dwelling with an initial net computed load of 10 kVA or more ____ for other loads.",
+options:["100A, 60A, 40A","100A, 60A, 50A","100A, 50A, 30A","100A, 60A, 20A"],
+answer:0
+},
+{
+question:"Direct grade level access is defind as being located not more than ____ mm above the grade level and being readily accessible",
+options:["1800","2000","2500","2200"],
+answer:1
+},
+{
+question:"All 125-V or 250-V single-phase, 15-A or 20-A receptacles installed within ____ mm of a kitchen sinks to serve counter top surfaces should have ground-fault circuit-interrupter protection for person",
+options:["1800","2000","2500","2200"],
+answer:0
+},
+{
+question:"For ranges of 8.75 kW or more the minimum branch circuit rating shall be ____ amperes",
+options:["30","40","20","50"],
+answer:1
+},
+{
+question:"For branch circuit rate less than 40 amperes, tap conductors shall have an ampacity not less than ____ amperes",
+options:["40","30","20","15"],
+answer:3
+},
+{
+question:"A single grounding electrode is permitted when the resistance to ground does not exceed ____ ohms",
+options:["15","30","20","25"],
+answer:3
+},
+{
+question:"The minimum size of a copper equipment grounding conductor required for equipment connected to a 40 ampere circuit",
+options:["16 sq.m","10 sq.m","14 sq.m","12 sq.m"],
+answer:2
+},
+{
+question:"Grounding conductors not an integral part of a cable assembly shall no be smaller than ____ mm² copper or ____ mm² aluminum",
+options:["14, 22","8, 22","5.5, 22","8, 14"],
+answer:0
+},
+{
+question:"The conductor between the surge arrester and the line and the grounding connection shall not be smaller than ____ mm² copper or aluminum",
+options:["14","5.5","8.0","22"],
+answer:0
+},
+{
+question:"Connection between a conductive or inductive metal object and an element of a lightning protection system to accomplish electrical continuity between the two",
+options:["interlink","messenger","connector","bonding"],
+answer:3
+},
+{
+question:"Ground terminals (rods) shall not be less than ____ in diameter and ____ long",
+options:["12.5 mm, 2200 mm","13.5 mm, 2500","2.0 mm, 2600mm","12.7 mm, 2400 mm"],
+answer:3
+},
+{
+question:"Clamps shall make contact with the ground rod for a distance of",
+options:["38 mm","30 mm","42 mm","50 mm"],
+answer:0
+},
+{
+question:"Ground fault protection of equipment shall be provided for a feeder disconnected ____ amperes or more solidly grounded wye system greater than 250 volts to ground but not exceeding 600 volts phase-to-phase",
+options:["750","1000","12500","1500"],
+answer:1
+},
+{
+question:"Aluminum, copper clad aluminum or copper conductors of size ____ mm or larger, comprisisng each phase, neutral, or grounded circuit conductor shall be permitted to be connected in parallel",
+options:["50","60","38","30"],
+answer:0
+},
+{
+question:"According to the Code, metal enclosures for gounding electrode conductors shall be",
+options:["isolated","rigid conduit","not permitted","electrically continuous"],
+answer:3
+},
+{
+question:"Grounding conductors shall not be connected by",
+options:["pressure-connector","clamps","welding","soldered fitting"],
+answer:3
+},
+{
+question:"The unit lighting for a dwelling unit expressed in watts per square meter shall be",
+options:["20 watts","25 watts","24 watts","30 watts"],
+answer:2
+},
+{
+question:"For the kitchen, small appliance load in dwelling occupancies, the code requires not less than",
+options:["two 20 A circuits","two 15 A circuits","two 30 A circuits","TWO 40 A circuits"],
+answer:0
+},
+{
+question:"For installations consisting of not more than two 2-wire branch circuits, the service disconnecting means shall have a rating of not less than ____ amperes",
+options:["15","20","30","50"],
+answer:2
+},
+{
+question:"For a one family dwelling the service disconntecing means shall have a rating of not less than ____ amperes",
+options:["60","50","40","100"],
+answer:3
+},
+{
+question:"For services exceeding 600 volts nominal service entrance conductors shall not be smaller than ____ mm² unless in cable",
+options:["5.5","8.0","14","22"],
+answer:1
+},
+{
+question:"For services, exceeding 600 volts nominal service entrance conductors in cable shall not be smaller than ____ mm²",
+options:["5.5","8.0","14","22"],
+answer:0
+},
+{
+question:"The overhead service conductors from the last pole or aerial support to and including the splices, if any connecting to the service entrance conductors at the building or other structure",
+options:["service cable","service conductors","service lateral","service drop"],
+answer:3
+},
+{
+question:"Ground fault protection of equipment shall be provide for solidly grounded wye electrical services of more than ____ to ground but not exceeding ____ phase to phase for each service disconnecting means rated 1000 amperes or more",
+options:["150 volts, 600 volts","240 volts, 600 volts","120 volts, 480 volts","110 volts, 480 volts"],
+answer:0
+},
+{
+question:"Where more than one electrode is used, each electrode of one grounding system (including that used for lightning rods) shall no be less than ____ mm from any other electrode of another grounding system.",
+options:["1900","2000","1520","1800"],
+answer:0
+},
+{
+question:"The grounding electrode shall be of",
+options:["copper","aluminum copper-clad","aluminum","any of these"],
+answer:3
+},
+{
+question:"In no case shall the grounding conductor be smaller than ____ mm² copper or ____ mm² aluminum",
+options:["8, 14","3.5, 5.5","8, 22","22, 24"],
+answer:0
+},
+{
+question:"The grounding conductor for secondary circuits of instrument transformers and for instrument cases shall not be smaller than ____ mm² copper of ____ mm² aluminum",
+options:["3.5, 8.0","5.5, 8.0","3.5, 5.5","5.5, 22"],
+answer:2
+},
+{
+question:"The minimum diameter of a steel ground electrode is",
+options:["8 mm","12mm","14mm","16mm"],
+answer:3
+},
+{
+question:"Code requires that the minimum area exposed surface offered by a plate electrode shall be",
+options:["3/8 sq.m","1/4 sq.m","1/2 sq.m","3/4 sq.m"],
+answer:1
+},
+{
+question:"Service drop conductors where not in excess of 600 volts nominal, shall have a vertical clearance of ____ mm above residential property and driveways and those commercial areas not subject to truck traffic",
+options:["4600","4200","5000","5500"],
+answer:0
+},
+{
+question:"Service drop conductors where voltage is limited to 600 volts to ground shall have a vertical clearance of ____ mm over residential porperty and driveways and those commercial areas not subject to truck traffic",
+options:["3700","4200","4350","4600"],
+answer:0
+},
+{
+question:"Service drop conductors where not in excess of 600 volts nominal, shall have a vertical clearace of ____ mm over public streets, parking areas subject to traffic, and driveways on other than residential areas",
+options:["4600","5500","5000","5300"],
+answer:1
+},
+{
+question:"Service drop conductors passing over a roof of a building shall be securely supported by substantial structures. Where practicable, such supports shall be ____ of the building.",
+options:["on the side","at the back","at the top","independent"],
+answer:3
+},
+{
+question:"A column pole or narrow base structure of wood, steel or other material supporting overhead conductors by means of arms or bracket.",
+options:["overhead","cleat","mast","extension pole"],
+answer:2
+},
+{
+question:"The minimum size of underground service lateral conductors shall be ____ mm² copper of ____ mn² aluminum or copper clad aluminum",
+options:["8.0, 14","5.5, 8.0","3.5, 8.0","5.5, 14"],
+answer:1
+},
+{
+question:"Ungrounded service-entrance conductors shall have an ampacity of not less than ____ amperes for one-family dwelling with six or more 2-wire branch circuits",
+options:["60","80","100","150"],
+answer:2
+},
+{
+question:"Service entrance cables shall be supported by straps and other approved means within ____ mm of every service head, gooseneck, or connection to a raceway or enclosure at intervals not exceeding ____ mm",
+options:["350, 700","350, 760","360, 760","360, 700"],
+answer:2
+},
+{
+question:"Service-entrance cables that are not approved for mounting in contact with a builing shall be mounted on insulating supports installed at interval exceeding ____ mm and in such a manner than ____ mm from the surface over which they pass",
+options:["4500, 50","4000, 100","4200, 60","4000, 35"],
+answer:0
+},
+{
+question:"When individual open conductors are used on not over 600 volts nominal, and the distance between conductors is 150 mm, the maximum distance between supports shall be ____ mm",
+options:["2000","2500","2700","3100"],
+answer:2
+},
+{
+question:"For installations to supply only limited loads of a single branch circuit, the service disconnecting means shall have a rating not less than ____ amperes",
+options:["15","20","30","50"],
+answer:0
+},
+{
+question:"Which of the following is not an exception on the code provisions that a building served shall be supplied by only one set of service drop",
+options:["for fire pumps","for emergency electrical systems","for air conditioners and water heaters","for multiple occupancy building"],
+answer:2
+},
+{
+question:"____ of service entrance conductors are taps from the main service conductors run to service equipments",
+options:["overhead feeders","subset","branch service drop","tie service drop"],
+answer:1
+},
+{
+question:"Two or more services shall be permitted where the capacity are in excesss of ____ amperes at a supply voltage of 600 volts or less",
+options:["2000","1500","2500","3000"],
+answer:0
+},
+{
+question:"The underground service conductors between the street main and the first point of connection to the service conductor in a terminal box",
+options:["service entrance conductor","service lateral","service drop","service raceway"],
+answer:2
+},
+{
+question:"Underground sets of conductors, size mm2 or larger running to the same location and connected together at their supply end but not connected together at their load end shall be considered to be one service lateral",
+options:["50","38","60","80"],
+answer:0
+},
+{
+question:"For services not over 600 volts nominal service conductors shall have a vertical clearance ____ mm from the roof surface",
+options:["2000","3000","2500","2200"],
+answer:2
+},
+{
+question:"Where the voltage between conductors does not exceed 300 volts, and the roof has a slope of no less than 00mm in 300 mm, a reduction of clearance to ____ mm shall be permitted",
+options:["2000","2200","1500","1000"],
+answer:3
+},
+{
+question:"Service drop conductors where not in excess of 600 volts nominal, shall have a vertical clearance form ground of ____ mm at electric service entrance to buildings or above area or sidewalk accessible only to pedestrians",
+options:["2000","2500","3100","3300"],
+answer:2
+}
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let wrongQuestions = [];
+    let mode = "all";
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreEl = document.getElementById("score");
+    const modeSelect = document.getElementById("modeSelect");
+    const quizEl = document.getElementById("quiz");
+    const statusEl = document.getElementById("status");
+    const resetBtn = document.getElementById("resetBtn");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const backBtn = document.getElementById("backBtn");
+
+    function getActiveQuestions() {
+      return mode === "all" ? allQuestions : wrongQuestions;
+    }
+
+    function loadQuestion() {
+      const active = getActiveQuestions();
+      if (active.length === 0) {
+        questionEl.textContent = "No questions to show in this mode.";
+        optionsEl.innerHTML = "";
+        nextBtn.style.display = "none";
+        return;
+      }
+      const q = active[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(i, btn);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      const active = getActiveQuestions();
+      const correct = active[currentQuestion].answer;
+      const buttons = optionsEl.querySelectorAll("button");
+      buttons.forEach((b, i) => {
+        if (i === correct) b.classList.add("correct");
+        if (i === selected && i !== correct) b.classList.add("wrong");
+        b.disabled = true;
+      });
+      if (selected === correct) {
+        score++;
+      } else {
+        if (!wrongQuestions.includes(active[currentQuestion])) {
+          wrongQuestions.push(active[currentQuestion]);
+        }
+      }
+      scoreEl.textContent = `Score: ${score} / ${allQuestions.length}`;
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      const active = getActiveQuestions();
+      currentQuestion++;
+      if (currentQuestion < active.length) {
+        loadQuestion();
+        nextBtn.style.display = "none";
+      } else {
+        questionEl.textContent = "Review Finished!";
+        optionsEl.innerHTML = "";
+        nextBtn.style.display = "none";
+      }
+    };
+
+    modeSelect.addEventListener("change", () => {
+      mode = modeSelect.value;
+      currentQuestion = 0;
+      loadQuestion();
+      nextBtn.style.display = "none";
+    });
+
+    // Reset quiz
+    resetBtn.onclick = () => {
+      currentQuestion = 0;
+      score = 0;
+      wrongQuestions = [];
+      scoreEl.textContent = "";
+      loadQuestion();
+      nextBtn.style.display = "none";
+    };
+
+    // Shuffle questions
+    shuffleBtn.onclick = () => {
+      allQuestions = allQuestions.sort(() => Math.random() - 0.5);
+      resetBtn.click();
+    };
+
+    // Back button
+    backBtn.onclick = () => {
+      window.location.href = "quiz.html";
+    };
+
+    function updateOnlineStatus() {
+      if (navigator.onLine) {
+        statusEl.textContent = "";
+        quizEl.style.display = "block";
+        modeSelect.disabled = false;
+        loadQuestion();
+      } else {
+        statusEl.textContent = "⚠️ You are offline. Please connect to the internet to start the quiz.";
+        quizEl.style.display = "none";
+        modeSelect.disabled = true;
+      }
+    }
+
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+
+    updateOnlineStatus();
+  </script>
+</body>
+</html>
