@@ -45,7 +45,7 @@
     </edit-config>
 
     <!-- ✅ Fix for Android 12+ exported requirement -->
-    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application/receiver[@android:name='nl.xservices.plugins.ShareChooserPendingIntent']">
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
       <receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:exported="true" />
     </edit-config>
 
