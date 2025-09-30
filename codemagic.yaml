@@ -1,0 +1,41 @@
+workflows:
+  cordova-workflow:
+    name: Cordova Android Build
+    max_build_duration: 30
+    environment:
+      node: latest
+      vars:
+        CORDOVA_PLATFORM: android
+    scripts:
+      - name: Install Cordova
+        script: npm install -g cordova
+
+      - name: Install Plugins
+        script: |
+          # tanggalin luma kung meron
+          cordova plugin remove cordova-plugin-x-socialsharing || true
+          cordova plugin remove cordova-plugin-splashscreen || true
+
+          # install bagong plugin
+          cordova plugin add cordova-plugin-x-socialsharing-android12@6.0.5 || true
+          cordova plugin add cordova-plugin-inappbrowser || true
+          cordova plugin add cordova-plugin-splashscreen || true
+
+      - name: Remove Android Platform (Clean)
+        script: cordova platform rm android || true
+
+      - name: Add Android Platform
+        script: cordova platform add android
+
+      - name: Prepare Android
+        script: cordova prepare android
+
+      - name: Patch AndroidManifest (safety for android:exported)
+        script: |
+          sed -i 's/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent"/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:exported="true"/' platforms/android/app/src/main/AndroidManifest.xml || true
+
+      - name: Build APK (Debug)
+        script: cordova build android --debug
+
+    artifacts:
+      - platforms/android/app/build/outputs/**/*.apk
