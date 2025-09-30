@@ -11,5 +11,5 @@ document.addEventListener('deviceready', function() {
             navigator.splashscreen.hide();
         }
         window.location.href = "second.html"; // Palitan depende sa target page
-    }, 3000);
+    }, 4000);
 }, false);
