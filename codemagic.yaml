@@ -1,0 +1,54 @@
+workflows:
+  cordova-release-workflow:
+    name: Cordova Android Release Build
+    max_build_duration: 30
+    environment:
+      node: latest
+      vars:
+        KEYSTORE_PATH: $CM_KEYSTORE_PATH
+        KEYSTORE_PASSWORD: $CM_KEYSTORE_PASSWORD
+        KEY_ALIAS: $CM_KEY_ALIAS
+        KEY_PASSWORD: $CM_KEY_PASSWORD
+    scripts:
+      - name: Install Cordova
+        script: npm install -g cordova
+
+      - name: Install Plugins
+        script: |
+          cordova plugin remove cordova-plugin-x-socialsharing || true
+          cordova plugin remove cordova-plugin-splashscreen || true
+          cordova plugin add cordova-plugin-x-socialsharing-android12@6.0.5 || true
+          cordova plugin add cordova-plugin-inappbrowser || true
+          cordova plugin add cordova-plugin-splashscreen || true
+
+      - name: Remove Android Platform (Clean)
+        script: cordova platform rm android || true
+
+      - name: Add Android Platform
+        script: cordova platform add android
+
+      - name: Prepare Android
+        script: cordova prepare android
+
+      - name: Patch AndroidManifest (safety for android:exported)
+        script: |
+          sed -i 's/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent"/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:exported="true"/' platforms/android/app/src/main/AndroidManifest.xml || true
+
+      - name: Create signing.properties
+        script: |
+          echo ">>> Creating signing.properties file"
+          mkdir -p platforms/android
+          echo "storeFile=$KEYSTORE_PATH" > platforms/android/signing.properties
+          echo "storePassword=$KEYSTORE_PASSWORD" >> platforms/android/signing.properties
+          echo "keyAlias=$KEY_ALIAS" >> platforms/android/signing.properties
+          echo "keyPassword=$KEY_PASSWORD" >> platforms/android/signing.properties
+          echo ">>> signing.properties content:"
+          cat platforms/android/signing.properties
+
+      - name: Build APK (Release)
+        script: |
+          echo ">>> Building with signing.properties"
+          cordova build android --release
+
+    artifacts:
+      - platforms/android/app/build/outputs/**/*.apk
