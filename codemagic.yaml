@@ -1,0 +1,78 @@
+workflows:
+  cordova-workflow:
+    name: Cordova Android Build (Fixed Signing)
+    max_build_duration: 30
+    environment:
+      node: latest
+      groups:
+        - signing  # Ensure this group contains: CM_KEYSTORE_PATH, CM_KEYSTORE_PASSWORD, CM_KEY_ALIAS, CM_KEY_PASSWORD
+    scripts:
+      - name: Install Cordova
+        script: npm install -g cordova@latest  # Pin to latest stable version
+
+      - name: Install Dependencies
+        script: npm ci  # Faster and more reliable than npm install for CI
+
+      - name: Install Plugins
+        script: |
+          cordova plugin remove cordova-plugin-x-socialsharing || true
+          cordova plugin add cordova-plugin-x-socialsharing
+          cordova plugin add cordova-plugin-inappbrowser
+          cordova plugin add cordova-plugin-splashscreen
+          cordova plugin add cordova-plugin-network-information
+
+      - name: Clean Android Platform
+        script: cordova platform remove android || true
+
+      - name: Add Android Platform
+        script: cordova platform add android@13  # Pin to a specific Android version (recommended)
+
+      - name: Prepare Android
+        script: cordova prepare android
+
+      - name: Patch AndroidManifest (Android 12+ Compatibility)
+        script: |
+          sed -i.bak 's/android:exported="false"/android:exported="true"/g' platforms/android/app/src/main/AndroidManifest.xml || true
+          rm -f platforms/android/app/src/main/AndroidManifest.xml.bak  # Clean up backup file
+
+      - name: Verify Keystore Path
+        script: |
+          echo "Keystore path: $CM_KEYSTORE_PATH"
+          if [ ! -f "$CM_KEYSTORE_PATH" ]; then
+            echo "ERROR: Keystore file not found at $CM_KEYSTORE_PATH"
+            exit 1
+          fi
+
+      - name: Build APK (Release)
+        script: |
+          cordova build android --release \
+            --keystore="$CM_KEYSTORE_PATH" \
+            --storePassword="$CM_KEYSTORE_PASSWORD" \
+            --alias="$CM_KEY_ALIAS" \
+            --password="$CM_KEY_PASSWORD"
+
+      - name: Build AAB (Release)
+        script: |
+          cordova build android --release -- --packageType=bundle \
+            --keystore="$CM_KEYSTORE_PATH" \
+            --storePassword="$CM_KEYSTORE_PASSWORD" \
+            --alias="$CM_KEY_ALIAS" \
+            --password="$CM_KEY_PASSWORD"
+
+      - name: List Build Outputs
+        script: |
+          echo "APK and AAB outputs:"
+          ls -lh platforms/android/app/build/outputs/apk/release/*.apk || true
+          ls -lh platforms/android/app/build/outputs/bundle/release/*.aab || true
+
+    artifacts:
+      - platforms/android/app/build/outputs/apk/release/*.apk
+      - platforms/android/app/build/outputs/bundle/release/*.aab
+
+    publishing:
+      email:
+        recipients:
+          - dccarlobos@gmail.com  # Optional: Send build notifications
+        notify:
+          success: true
+          failure: true
