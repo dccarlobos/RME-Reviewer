@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  <name>RME Reviewer</name>
+  <description>For RME Reviewer app built with Cordova wrapper</description>
+  <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
+    Don Carlo Carlobos
+  </author>
+
+  <content src="index.html" />
+
+  <!-- General app preferences -->
+  <preference name="Fullscreen" value="true" />
+  <preference name="Orientation" value="portrait" />
+
+  <!-- ✅ Modern splash screen setup -->
+  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+  <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
+  <preference name="ShowSplashScreenSpinner" value="false" />
+  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="FadeSplashScreen" value="true" />
+  <preference name="FadeSplashScreenDuration" value="500" />
+
+  <!-- Network permissions -->
+  <allow-navigation href="*" />
+  <allow-intent href="http://*/*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="market:*" />
+
+  <!-- Plugins -->
+  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.0" />
+  <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
+  <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+
+  <!-- App icon -->
+  <icon src="resources/icon.png" />
+
+  <!-- ✅ Removed deprecated <splash> tags -->
+</widget>
