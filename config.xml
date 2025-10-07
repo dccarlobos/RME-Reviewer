@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>RME Reviewer</name>
+    <description>For RME Reviewer app built with Cordova wrapper</description>
+    <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
+    Don Carlo Carlobos
+  </author>
+    <content src="index.html" />
+    <preference name="Fullscreen" value="false" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
+    <allow-navigation href="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="market:*" />
+    <plugin name="cordova-plugin-splashscreen" spec="^6.0.0" />
+    <plugin name="cordova-plugin-android-fullscreen" spec="^1.0.2" />
+    <icon src="resources/icon.png" />
+    <platform name="android">
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+        <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
+    </platform>
+</widget>
