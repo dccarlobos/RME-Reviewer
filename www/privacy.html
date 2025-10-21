@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - RME Reviewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background: #0f1724;
+      color: #fff;
+    }
+    .card {
+      background: #0b1220;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 40px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      text-align: left;
+    }
+    h1, h2 {
+      color: #06b6d4;
+    }
+    a {
+      color: #06b6d4;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .back-btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto 0 auto;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: #06b6d4;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1, 
+    body.light h2, 
+    body.light a {
+      color: #0f1724;
+    }
+    body.light .back-btn {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .back-btn:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Privacy Policy</h1>
+    <p><strong>RME Reviewer</strong> values your privacy. This Privacy Policy explains how our app collects, uses, and protects your information.</p>
+
+    <h2>Information We Collect</h2>
+    <ul>
+      <li><strong>No Personal Data Required</strong> – You can use the app without creating an account or providing personal information.</li>
+      <li><strong>Usage Data</strong> – The app may collect non-personal information such as device type, operating system, and app usage statistics (for improvement purposes).</li>
+      <li><strong>Advertisements</strong> – Third-party ad networks (such as Google AdMob) may collect anonymized data for personalized or non-personalized ads.</li>
+    </ul>
+
+    <h2>How We Use Your Information</h2>
+    <ul>
+      <li>To improve app performance and user experience.</li>
+      <li>To serve relevant ads and keep the app free.</li>
+      <li>To fix bugs and enhance features.</li>
+    </ul>
+
+    <h2>Advertisements and Ad Policy</h2>
+    <p>This app displays advertisements provided by third-party networks such as Google AdMob. These ads help keep the app free for all users. Some ad providers may use cookies or device identifiers to deliver more relevant ads. You can learn more or manage ad personalization settings by visiting your Google account’s <a href="https://adssettings.google.com/" target="_blank">Ad Settings</a>.</p>
+    <p>We ensure that ads do not interfere with core app functionality and are shown in compliance with Google Play’s Families and Ads policy.</p>
+
+    <h2>Third-Party Services</h2>
+    <p>Our app may use third-party services that collect information used to identify you. These services may include:</p>
+    <ul>
+      <li>Google AdMob (for ads)</li>
+      <li>Google Analytics or similar tools (for app usage statistics)</li>
+    </ul>
+    <p>Please refer to the privacy policies of these third-party services for more details.</p>
+
+    <h2>Data Security</h2>
+    <p>We do not sell, trade, or share your personal data. While no method of transmission is 100% secure, we strive to protect your data as best as possible using modern security practices.</p>
+
+    <h2>GDPR and User Consent</h2>
+    <p>For users in the European Economic Area (EEA), the app may request consent before showing personalized ads. If consent is denied, only non-personalized ads will be shown. We fully comply with Google’s EU User Consent Policy.</p>
+
+    <h2>Children’s Privacy</h2>
+    <p>This app is intended for general audiences and not specifically directed toward children under 13. We do not knowingly collect personal information from children. Google AdMob may show only non-personalized ads to users identified as under 13, in compliance with COPPA (Children’s Online Privacy Protection Act).</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. Any changes will be posted within the app or on our official website. Users are encouraged to review this page periodically for updates.</p>
+
+    <h2>Contact Us</h2>
+    <p>If you have any questions or concerns about this Privacy Policy, you may contact us at:</p>
+    <p>📧 <a href="mailto:dccarlobos@gmail.com">dccarlobos@gmail.com</a></p>
+
+    <p><em>Last updated: October 2025</em></p>
+
+    <button class="back-btn" id="backBtn">Back</button>
+  </div>
+
+  <script>
+    // Back button functionality
+    document.getElementById('backBtn').onclick = () => {
+      window.location.href = 'settings.html';
+    };
+
+    // Auto apply light mode if user saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+  <script src="js/exit.js"></script>
+</body>
+</html>
