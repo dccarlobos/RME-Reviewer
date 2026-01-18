@@ -31,7 +31,7 @@
   <allow-intent href="market:*" />
 
   <!-- ✅ Plugins -->
-  <plugin name="cordova-plugin-x-socialsharing-android12" spec="^6.0.5" />
+  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.5" />
   <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
   <plugin name="cordova-plugin-fullscreen" spec="^1.0.3" />
   <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
