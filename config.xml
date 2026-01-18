@@ -5,8 +5,7 @@
 
   <name>RME Reviewer</name>
   <description>For RME Reviewer app built with Cordova wrapper</description>
-  <author email="dccarlobos@gmail.com"
-          href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
+  <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
     Don Carlo Carlobos
   </author>
 
@@ -32,108 +31,27 @@
   <allow-intent href="market:*" />
 
   <!-- ✅ Plugins -->
-  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.5" />
+  <plugin name="cordova-plugin-x-socialsharing-android12" spec="^6.0.5" />
   <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
   <plugin name="cordova-plugin-fullscreen" spec="^1.0.3" />
   <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
-
-  <!-- ✅ AdMob Plus plugin -->
   <plugin name="admob-plus-cordova" spec="latest">
-    <variable name="APP_ID_ANDROID"
-              value="ca-app-pub-3940256099942544~3347511713" />
+    <variable name="APP_ID_ANDROID" value="ca-app-pub-3940256099942544~3347511713" />
   </plugin>
 
   <!-- ✅ App icon -->
   <icon src="resources/icon.png" />
 
-  <!-- ✅ ANDROID PLATFORM CONFIG -->
+  <!-- ✅ Android-specific -->
   <platform name="android">
+    <!-- Splash preferences -->
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
 
-    <!-- 🔧 FIX: Android 12+ exported requirement (Social Sharing plugin) -->
-    <edit-config
-        file="app/src/main/AndroidManifest.xml"
-        mode="merge"
-        target="/manifest/application/receiver[@android:name='nl.xservices.plugins.ShareChooserPendingIntent']">
-
-      <receiver
-          android:name="nl.xservices.plugins.ShareChooserPendingIntent"
-          android:exported="false" />
+    <!-- Fix Android 12+ exported receivers -->
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/receiver[@android:name='nl.xservices.plugins.ShareChooserPendingIntent']">
+      <receiver android:exported="true" />
     </edit-config>
-
-    <preference name="AndroidWindowSplashScreenAnimatedIcon"
-                value="resources/splash/splash.png" />
-    <preference name="AndroidWindowSplashScreenBackground"
-                value="#FFFFFF" />
-
   </platform>
 
-</widget>Enter<<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.dccarlobos.rmereviewer" version="1.0.0"
-    xmlns="http://www.w3.org/ns/widgets"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <name>RME Reviewer</name>
-  <description>For RME Reviewer app built with Cordova wrapper</description>
-  <author email="dccarlobos@gmail.com"
-          href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
-    Don Carlo Carlobos
-  </author>
-
-  <content src="index.html" />
-
-  <!-- ✅ General app preferences -->
-  <preference name="Fullscreen" value="false" />
-  <preference name="Orientation" value="portrait" />
-  <preference name="AutoHideSplashScreen" value="true" />
-  <preference name="ShowSplashScreenSpinner" value="false" />
-  <preference name="SplashScreenDelay" value="3000" />
-  <preference name="FadeSplashScreen" value="true" />
-  <preference name="FadeSplashScreenDuration" value="500" />
-
-  <!-- ✅ Modern Android splash (Cordova Android 10+) -->
-  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
-  <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
-
-  <!-- ✅ Allow internet + external links -->
-  <allow-navigation href="*" />
-  <allow-intent href="http://*/*" />
-  <allow-intent href="https://*/*" />
-  <allow-intent href="market:*" />
-
-  <!-- ✅ Plugins -->
-  <plugin name="cordova-plugin-x-socialsharing" spec="^6.0.5" />
-  <plugin name="cordova-plugin-inappbrowser" spec="^5.0.0" />
-  <plugin name="cordova-plugin-fullscreen" spec="^1.0.3" />
-  <plugin name="cordova-plugin-network-information" spec="^3.0.0" />
-
-  <!-- ✅ AdMob Plus plugin -->
-  <plugin name="admob-plus-cordova" spec="latest">
-    <variable name="APP_ID_ANDROID"
-              value="ca-app-pub-3940256099942544~3347511713" />
-  </plugin>
-
-  <!-- ✅ App icon -->
-  <icon src="resources/icon.png" />
-
-  <!-- ✅ ANDROID PLATFORM CONFIG -->
-  <platform name="android">
-
-    <!-- 🔧 FIX: Android 12+ exported requirement (Social Sharing plugin) -->
-    <edit-config
-        file="app/src/main/AndroidManifest.xml"
-        mode="merge"
-        target="/manifest/application/receiver[@android:name='nl.xservices.plugins.ShareChooserPendingIntent']">
-
-      <receiver
-          android:name="nl.xservices.plugins.ShareChooserPendingIntent"
-          android:exported="false" />
-    </edit-config>
-
-    <preference name="AndroidWindowSplashScreenAnimatedIcon"
-                value="resources/splash/splash.png" />
-    <preference name="AndroidWindowSplashScreenBackground"
-                value="#FFFFFF" />
-
-  </platform>
-
-</widget>Enter/widget>
+</widget>
