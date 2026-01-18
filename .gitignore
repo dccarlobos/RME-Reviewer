@@ -1,0 +1,36 @@
+# Node dependencies
+node_modules/
+
+# Cordova plugins (puwede i-regenerate)
+plugins/
+
+# Generated platforms (Android/iOS)
+platforms/
+
+# Build output folder
+www/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MacOS system files
+.DS_Store
+
+# IDE/editor configs
+.idea/
+*.iml
+.vscode/
+
+# Environment variables (if any)
+.env
+
+# Generated certificate/key files (if any)
+*.jks
+*.keystore
+
+# Temporary files
+*.tmp
+*.swp
