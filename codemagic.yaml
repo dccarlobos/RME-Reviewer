@@ -26,7 +26,7 @@ workflows:
           cordova plugin remove admob-plus-cordova || true
 
           echo "📦 Installing compatible plugins..."
-          cordova plugin add cordova-plugin-x-socialsharing-android12@6.0.5
+        
           cordova plugin add cordova-plugin-inappbrowser
           cordova plugin add cordova-plugin-fullscreen
           cordova plugin add cordova-plugin-network-information
