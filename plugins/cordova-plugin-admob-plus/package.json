@@ -1,0 +1,61 @@
+{
+  "name": "cordova-plugin-admob-plus",
+  "version": "1.3.2",
+  "description": "[Deprecated] Cordova Plugin for Google AdMob and more.",
+  "cordova": {
+    "id": "cordova-plugin-admob-plus",
+    "platforms": [
+      "android",
+      "ios",
+      "amazon-fireos",
+      "wp8",
+      "windows",
+      "browser"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "admob",
+    "ecosystem:cordova",
+    "cordova-admob",
+    "cordova-plugin-admob",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-wp8",
+    "cordova-windows",
+    "cordova-amazon-fireos",
+    "cordova-plugin-ad",
+    "ad",
+    "admobpro",
+    "google",
+    "eclipse",
+    "android-studio",
+    "plugin",
+    "plus",
+    "android",
+    "ios",
+    "windows",
+    "phonegap",
+    "monetization",
+    "monetisation",
+    "money",
+    "banner",
+    "interstitial",
+    "advertisement",
+    "advertising",
+    "earn",
+    "iad",
+    "device",
+    "html5",
+    "js",
+    "appframework",
+    "ionic",
+    "meteor",
+    "ng-cordova",
+    "flurry"
+  ],
+  "author": {
+    "name": "DT Loops"
+  },
+  "license": "MIT"
+}
