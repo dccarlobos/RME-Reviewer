@@ -1,0 +1,89 @@
+workflows:
+  cordova-release-workflow:
+    name: Cordova Android Release Build
+    max_build_duration: 40
+    environment:
+      node: latest
+      vars:
+        KEYSTORE_PATH: dccarlobos-key.jks
+        KEYSTORE_PASSWORD: 143143
+        KEY_ALIAS: ilovemoney
+        KEY_PASSWORD: 143143
+        ANDROID_BUILD_TOOLS: 33.0.0
+        ANDROID_SDK_ROOT: $HOME/Android/Sdk
+
+    scripts:
+      - name: Install Cordova
+        script: npm install -g cordova
+
+      - name: Clean Plugins
+        script: |
+          echo "🔧 Removing old plugins..."
+          cordova plugin remove cordova-plugin-x-socialsharing || true
+          cordova plugin remove cordova-plugin-inappbrowser || true
+          cordova plugin remove cordova-plugin-statusbar || true
+          cordova plugin remove cordova-plugin-splashscreen || true
+          cordova plugin remove cordova-plugin-network-information || true
+          cordova plugin remove cordova-plugin-admob-plus || true
+
+      - name: Install Plugins
+        script: |
+          echo "📦 Installing plugins..."
+          cordova plugin add cordova-plugin-x-socialsharing@6.0.4
+          cordova plugin add cordova-plugin-inappbrowser@5.0.0
+          cordova plugin add cordova-plugin-statusbar@4.0.0
+          cordova plugin add cordova-plugin-splashscreen@6.0.2
+          cordova plugin add cordova-plugin-network-information@2.0.2
+          cordova plugin add cordova-plugin-admob-plus@1.3.2
+
+      - name: Clean and Re-add Android Platform
+        script: |
+          echo "🧹 Removing old Android platform..."
+          cordova platform rm android || true
+          echo "➕ Adding Android platform v13 (cordova-android 13)"
+          cordova platform add android@13.0.2
+          cordova prepare android
+
+      - name: Install Android Build Tools 33
+        script: |
+          echo "🔧 Installing Android Build Tools $ANDROID_BUILD_TOOLS..."
+          yes | $ANDROID_SDK_ROOT/tools/bin/sdkmanager "build-tools;$ANDROID_BUILD_TOOLS" "platforms;android-33"
+
+      - name: Verify Keystore
+        script: |
+          echo "🔐 Checking keystore..."
+          ls -l $KEYSTORE_PATH || (echo "❌ Keystore not found!" && exit 1)
+
+      - name: Patch AndroidManifest
+        script: |
+          echo "🩹 Patching AndroidManifest.xml..."
+          sed -i 's/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent"/<receiver android:name="nl.xservices.plugins.ShareChooserPendingIntent" android:exported="true"/' platforms/android/app/src/main/AndroidManifest.xml || true
+
+      - name: Build Signed APK
+        script: |
+          echo "🏗️ Building signed APK..."
+          cordova build android --release \
+            -- --packageType=apk \
+               --keystore=$KEYSTORE_PATH \
+               --storePassword=$KEYSTORE_PASSWORD \
+               --alias=$KEY_ALIAS \
+               --password=$KEY_PASSWORD
+
+      - name: Build Signed AAB
+        script: |
+          echo "🏗️ Building signed AAB..."
+          cordova build android --release \
+            -- --packageType=bundle \
+               --keystore=$KEYSTORE_PATH \
+               --storePassword=$KEYSTORE_PASSWORD \
+               --alias=$KEY_ALIAS \
+               --password=$KEY_PASSWORD
+
+      - name: Verify Build Outputs
+        script: |
+          echo "📁 Build outputs:"
+          find platforms/android/app/build/outputs -type f \( -name "*.apk" -o -name "*.aab" \)
+
+    artifacts:
+      - platforms/android/app/build/outputs/**/*.apk
+      - platforms/android/app/build/outputs/**/*.aab
