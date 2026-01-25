@@ -1,0 +1,7 @@
+{
+  "name": "RMEReviewer_ionic_new",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

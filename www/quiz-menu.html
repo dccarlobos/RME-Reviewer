@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RME Reviewer - Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .card {
+      background: #0b1220;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 500px;
+      margin: 40px auto;
+      transition: background 0.3s;
+    }
+    h1 {
+      color: #06b6d4;
+      margin-bottom: 20px;
+    }
+
+    /* Grid for buttons */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+    button {
+      padding: 14px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #06b6d4;
+    }
+
+    /* Back button same style as others, but full width */
+    .back-btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    /* Ad space style */
+    .ad-space {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 14px;
+      text-align: center;
+      padding: 15px;
+      margin: 15px auto;
+      border-radius: 8px;
+      max-width: 500px;
+    }
+
+    /* Light mode styles */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1 {
+      color: #0f1724;
+    }
+    body.light button {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light button:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+    body.light .ad-space {
+      background: #e2e8f0;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Select a Quiz</h1>
+
+    <!-- Ad banner 1 -->
+    <div id="ad-space-1" class="ad-space"></div>
+
+    <div class="grid">
+      <button onclick="location.href='quiz1.html'">Quiz 1</button>
+      <button onclick="location.href='quiz2.html'">Quiz 2</button>
+      <button onclick="location.href='quiz3.html'">Quiz 3</button>
+
+      <button onclick="location.href='quiz4.html'">Quiz 4</button>
+      <button onclick="location.href='quiz5.html'">Quiz 5</button>
+      <button onclick="location.href='quiz6.html'">Quiz 6</button>
+
+      <button onclick="location.href='quiz7.html'">Quiz 7</button>
+      <button onclick="location.href='quiz8.html'">Quiz 8</button>
+      <button onclick="location.href='quiz9.html'">Quiz 9</button>
+
+      <button onclick="location.href='quiz10.html'">Quiz 10</button>
+    </div>
+
+    <!-- Back button -->
+    <button class="back-btn" onclick="location.href='second.html'">Back</button>
+  </div>
+
+  <!-- Ad banner 2 -->
+  <div id="ad-space-2" class="ad-space"></div>
+
+  <script>
+    // Apply saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+  
+  <script src="js/ads.js"></script>
+</body>
+</html>
