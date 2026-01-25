@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>RME Reviewer</name>
+    <description>RME Board Exam Reviewer App</description>
+    <author email="dccarlobos@gmail.com" href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
+        Don Carlo Carlobos
+    </author>
+
+    <!-- Main content -->
+    <content src="index.html" />
+
+    <!-- App Preferences -->
+    <preference name="ScrollEnabled" value="true" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="SplashScreen" value="screen" /> <!-- for Cordova Android 12+ -->
+    <preference name="android-targetSdkVersion" value="35" />
+
+    <!-- Android-specific splash settings -->
+    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+    <preference name="AndroidWindowSplashScreenBackground" value="#0f1724" />
+    <preference name="AndroidWindowSplashScreenAnimationDuration" value="500" />
+    <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#0f1724" />
+
+    <!-- App Icon -->
+    <icon src="resources/icon.png" />
+    
+
+    <!-- Plugins -->
+    <plugin name="cordova-plugin-network-information" />
+    <plugin name="cordova-plugin-inappbrowser" />
+    <plugin name="cordova-plugin-fullscreen" />
+    <plugin name="cordova-plugin-x-socialsharing" />
+    <plugin name="cordova-plugin-androidx-splashscreen" />
+    <plugin name="admob-plus-cordova">
+        <variable name="APP_ID_ANDROID" value="ca-app-pub-3940256099942544~3347511713" />
+    </plugin>
+</widget>
