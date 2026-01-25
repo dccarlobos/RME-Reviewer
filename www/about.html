@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About App & Licenses - RME Reviewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      background: #0f1724;
+      color: #fff;
+    }
+    .card {
+      background: #0b1220;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 40px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+    h1, h2 {
+      color: #06b6d4;
+    }
+    a {
+      color: #06b6d4;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .back-btn {
+      display: block;
+      width: 150px;
+      margin: 20px auto 0 auto;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1e293b;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .back-btn:hover {
+      background: #06b6d4;
+    }
+
+    .disclaimer {
+      margin-top: 20px;
+      font-size: 14px;
+      font-style: italic;
+      color: #9ca3af;
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+    body.light h1, 
+    body.light h2, 
+    body.light a {
+      color: #0f1724;
+    }
+    body.light .back-btn {
+      background: #e2e8f0;
+      color: #000;
+    }
+    body.light .back-btn:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+    body.light .disclaimer {
+      color: #4b5563;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>About App</h1>
+    <p><strong>RME Reviewer</strong> is a mobile/web application designed to help aspiring <em>Registered Master Electricians</em> in the Philippines review effectively for the board exam. The app provides:</p>
+    <ul>
+      <li>Practice quizzes with multiple-choice questions</li>
+      <li>Results tracking and performance improvement</li>
+      <li>Light and dark theme for user comfort</li>
+    </ul>
+    <p>This app is free to use and supported by ads.</p>
+
+    <h2>Licenses</h2>
+    <p>This app may use the following open-source libraries or frameworks:</p>
+    <ul>
+      <li><strong>HTML, CSS, JavaScript</strong> – for building the app interface</li>
+      <li><strong>LocalStorage API</strong> – for saving settings (like theme preference)</li>
+      <li><strong>Google Fonts / System Fonts</strong> – for better typography</li>
+      <li><strong>AdMob / Ad Services</strong> – for in-app advertisements</li>
+    </ul>
+    <p>All trademarks, logos, and brand names are the property of their respective owners. This app is not affiliated with the Professional Regulation Commission (PRC).</p>
+
+    <div class="disclaimer">
+      📘 All questions are based on public domain engineering concepts and are rephrased for educational purposes.
+    </div>
+
+    <h2>Developer</h2>
+    <p>Developed by: <strong>dccarlo - AI Powered</strong><br>
+    📧 <a href="mailto:dccarlobos@gmail.com">dccarlobos@gmail.com</a></p>
+
+    <button class="back-btn" id="backBtn">Back</button>
+  </div>
+
+  <script>
+    // Back button functionality
+    document.getElementById('backBtn').onclick = () => {
+      window.location.href = 'settings.html';
+    };
+
+    // Auto apply light mode if user saved theme
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+    }
+  </script>
+
+  <!-- Import ng exit.js (universal exit script) -->
+  <script src="js/exit.js"></script>
+</body>
+</html>
