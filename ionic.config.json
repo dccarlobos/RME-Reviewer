@@ -1,0 +1,7 @@
+{
+  "name": "RMEReviewer",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
