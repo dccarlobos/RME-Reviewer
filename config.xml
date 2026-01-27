@@ -27,7 +27,7 @@
   <!-- Android 12+ Splash -->
   <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
   <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
-  <preference name="admob.initialize" value="false" />
+  <preference name="admob.initialize" value="true" />
 
   <!-- App icon -->
   <icon src="resources/icon.png" />
