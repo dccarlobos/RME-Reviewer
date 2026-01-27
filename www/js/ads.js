@@ -3,7 +3,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
   // Delay a bit for extra safety (Appflow)
-  setTimeout(initAds, 500);
+  setTimeout(initAds, 1000);
 }
 
 async function initAds() {
@@ -13,25 +13,36 @@ async function initAds() {
   }
 
   try {
-    // Configure AdMob (TEST MODE)
+    // Configure AdMob
     await admob.configure({
-      testDeviceIds: ["EMULATOR"],
+      testDeviceIds: ["EMULATOR"], // dagdagan ng device ID kung real device
       childDirectedTreatment: false,
       underAgeOfConsent: false,
     });
 
     await admob.start();
 
-    // ✅ BOTTOM BANNER (RECOMMENDED)
-    const banner = new admob.BannerAd({
+    // ✅ TOP BANNER
+    const topBanner = new admob.BannerAd({
+      adUnitId: "ca-app-pub-3940256099942544/6300978111", // TEST BANNER
+      position: "top",
+      margin: 0,
+    });
+
+    topBanner.on('load', () => console.log('✅ Top banner loaded'));
+    topBanner.on('fail', (err) => console.error('❌ Top banner failed', err));
+    await topBanner.show();
+
+    // ✅ BOTTOM BANNER
+    const bottomBanner = new admob.BannerAd({
       adUnitId: "ca-app-pub-3940256099942544/6300978111", // TEST BANNER
       position: "bottom",
       margin: 0,
     });
 
-    await banner.show();
-
-    console.log("✅ AdMob banner loaded successfully");
+    bottomBanner.on('load', () => console.log('✅ Bottom banner loaded'));
+    bottomBanner.on('fail', (err) => console.error('❌ Bottom banner failed', err));
+    await bottomBanner.show();
 
   } catch (err) {
     console.error("❌ AdMob failed:", err);
