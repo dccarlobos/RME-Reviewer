@@ -22,7 +22,7 @@
 
   <!-- ✅ STABLE SDK FOR ADMOB -->
   <preference name="android-minSdkVersion" value="23" />
-  <preference name="android-targetSdkVersion" value="34" />
+  <preference name="android-targetSdkVersion" value="35" />
 
   <!-- Android 12+ Splash -->
   <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
