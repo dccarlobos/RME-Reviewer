@@ -13,6 +13,7 @@
     <preference name="android-compileSdkVersion" value="34" />
     <preference name="android-targetSdkVersion" value="34" /> 
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+    <preference name="android-usesCleartextTraffic" value="true" />
     <preference name="AndroidWindowSplashScreenIconBackgroundColor" value="#FFFFFF" />
     <icon src="resources/icon.png" />
     <plugin name="cordova-plugin-network-information" />
