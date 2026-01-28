@@ -48,8 +48,10 @@ jobs:
           --alias=${{ secrets.KEY_ALIAS }} \
           --password=${{ secrets.KEY_PASSWORD }}
 
-      - name: Upload Release APK
+      - name: Upload Android Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-apk
-          path: platforms/android/**/outputs/apk/release/*.apk
+          name: android-build
+          path: |
+            platforms/android/**/*.apk
+            platforms/android/**/*.aab
