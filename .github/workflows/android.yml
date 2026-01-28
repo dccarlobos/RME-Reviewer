@@ -1,0 +1,55 @@
+name: Build Android RELEASE APK (Signed)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Cordova
+        run: npm install -g cordova
+
+      - name: Install project dependencies
+        run: npm install
+
+      - name: Add Android platform
+        run: |
+          cordova platform remove android || true
+          cordova platform add android
+
+      - name: Restore Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > dccarlobos-key.jks
+
+      - name: Build Signed Release APK
+        run: |
+          cordova build android --release \
+          -- --keystore=dccarlobos-key.jks \
+          --storePassword=${{ secrets.KEYSTORE_PASSWORD }} \
+          --alias=${{ secrets.KEY_ALIAS }} \
+          --password=${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: platforms/android/app/build/outputs/apk/release/app-release.apk
