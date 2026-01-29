@@ -32,7 +32,9 @@ jobs:
         run: npm install
 
       - name: Add Android platform
-        run: cordova platform add android
+        run: |
+          cordova platform remove android || true
+          cordova platform add android
 
       - name: Restore Keystore
         run: |
