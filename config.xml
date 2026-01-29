@@ -38,7 +38,7 @@
   <plugin name="cordova-plugin-x-socialsharing" />
 
   <!-- ✅ ADMOB (STABLE) -->
-  <plugin name="admob-plus-cordova">
+  <plugin name="admob-plus-cordova" />
     <!-- TEST APP ID (SAFE) -->
     <variable name="APP_ID_ANDROID"
               value="ca-app-pub-3940256099942544~3347511713" />
