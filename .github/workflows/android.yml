@@ -1,4 +1,3 @@
-
 name: Build Signed Android APK
 
 on:
@@ -33,9 +32,7 @@ jobs:
         run: npm install
 
       - name: Add Android platform
-        run: |
-          cordova platform remove android || true
-          cordova platform add android
+        run: cordova platform add android
 
       - name: Restore Keystore
         run: |
