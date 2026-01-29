@@ -1,0 +1,18 @@
+{
+  "devDependencies": {
+    "cordova-plugin-admob-simple": "^3.3.8",
+    "cordova-plugin-inappbrowser": "^6.0.0",
+    "cordova-plugin-network-information": "^3.0.0",
+    "cordova-plugin-x-socialsharing": "^6.0.4"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-admob-simple": {
+        "APP_ID_ANDROID": "ca-app-pub-3940256099942544~3347511713"
+      },
+      "cordova-plugin-x-socialsharing": {}
+    }
+  }
+}

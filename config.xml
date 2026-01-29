@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.dccarlobos.rmereviewer"
+        version="1.0.0"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+
+  <name>RME Reviewer</name>
+  <description>RME Board Exam Reviewer App</description>
+
+  <author email="dccarlobos@gmail.com"
+          href="https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer">
+    Don Carlo Carlobos
+  </author>
+
+  <!-- Entry point -->
+  <content src="index.html" />
+
+  <!-- App preferences -->
+  <preference name="Orientation" value="portrait" />
+  
+  <preference name="ScrollEnabled" value="true" />
+
+  <!-- ✅ STABLE SDK FOR ADMOB -->
+  <preference name="android-minSdkVersion" value="23" />
+  <preference name="android-targetSdkVersion" value="35" />
+
+  <!-- Android 12+ Splash -->
+  <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/splash/splash.png" />
+  <preference name="AndroidWindowSplashScreenBackground" value="#FFFFFF" />
+
+  <!-- App icon -->
+  <icon src="resources/icon.png" />
+
+  <!-- Plugins -->
+  <plugin name="cordova-plugin-network-information" />
+  <plugin name="cordova-plugin-inappbrowser" />
+  <plugin name="cordova-plugin-x-socialsharing" />
+
+  <!-- ✅ ADMOB (STABLE) -->
+  <plugin name="cordova-plugin-admob-simple">
+    <!-- TEST APP ID (SAFE) -->
+    <variable name="APP_ID_ANDROID"
+              value="ca-app-pub-3940256099942544~3347511713" />
+  </plugin>
+
+</widget>
