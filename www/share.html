@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: none;
+    }
+    .card {
+      background: #0b1220;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 { color: #06b6d4; margin-bottom: 10px; }
+    p { margin-bottom: 20px; color: #94a3b8; }
+    .share-buttons { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .share-btn {
+      display: flex; justify-content: center; align-items: center;
+      height: 50px; background: #1e293b; color: #fff; border: none;
+      border-radius: 8px; cursor: pointer; text-decoration: none;
+      font-size: 18px; font-weight: normal;
+    }
+    .share-btn:hover { background: #06b6d4; }
+    body.light { background: #f9f9f9; color: #000; }
+    body.light .card { background: #fff; color: #000; }
+    body.light h1 { color: #0f1724; }
+    body.light p { color: #333; }
+    body.light .share-btn { background: #e2e8f0; color: #000; }
+    body.light .share-btn:hover { background: #06b6d4; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Share This App</h1>
+    <p>Spread the word and share this app with your friends!</p>
+
+    <div class="share-buttons">
+      <button class="share-btn" onclick="openFacebook()">Facebook</button>
+      <button class="share-btn" onclick="openTwitter()">Twitter</button>
+      <button class="share-btn" onclick="copyLink()">Copy Link</button>
+      <button class="share-btn" onclick="shareViaPhone()">Share via Phone</button>
+      <button class="share-btn" id="backBtn">Back</button>
+    </div>
+  </div>
+
+  <!-- Cordova auto-generated script -->
+  <script src="cordova.js"></script>
+  <script>
+    document.addEventListener("deviceready", function() {
+      const appLink = "https://play.google.com/store/apps/details?id=com.dccarlobos.rmereviewer";
+
+      // Copy link
+      window.copyLink = function() {
+        try {
+          navigator.clipboard.writeText(appLink);
+          alert("Link copied to clipboard!");
+        } catch {
+          prompt("Copy this link:", appLink);
+        }
+      };
+
+      // Share via Phone (SocialSharing plugin)
+      window.shareViaPhone = function() {
+        if (window.plugins && window.plugins.socialsharing) {
+          window.plugins.socialsharing.share(
+            'Check out this RME Reviewer App!', 
+            'RME Reviewer', 
+            null, 
+            appLink
+          );
+        } else {
+          alert("Sharing not supported. Use Copy Link.");
+        }
+      };
+
+      // Facebook share (InAppBrowser)
+      window.openFacebook = function() {
+        if (cordova.InAppBrowser) {
+          cordova.InAppBrowser.open(
+            'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(appLink),
+            '_system'
+          );
+        } else {
+          alert("Browser not available.");
+        }
+      };
+
+      // Twitter share (InAppBrowser)
+      window.openTwitter = function() {
+        if (cordova.InAppBrowser) {
+          cordova.InAppBrowser.open(
+            'https://twitter.com/intent/tweet?url=' + encodeURIComponent(appLink) + '&text=' + encodeURIComponent("Check out this amazing app!"),
+            '_system'
+          );
+        } else {
+          alert("Browser not available.");
+        }
+      };
+
+      // Back button
+      document.getElementById('backBtn').onclick = () => {
+        window.location.href = 'settings.html';
+      };
+
+      // Apply saved theme
+      if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light');
+      }
+    }, false);
+  </script>
+  <script src="js/exit.js"></script>
+</body>
+</html>
