@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RME Reviewer - Home</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f1724;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .card {
+      background: #0b1220;
+      padding: 40px 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
+      max-width: 400px;
+      margin: 100px auto;
+      transition: background 0.3s;
+    }
+
+    h1 {
+      color: #06b6d4;
+      margin-bottom: 20px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      padding: 16px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #06b6d4;
+    }
+
+    .ad-space {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 14px;
+      text-align: center;
+      padding: 15px;
+      margin: 15px auto;
+      border-radius: 8px;
+      max-width: 400px;
+    }
+
+    .switch-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      background: #1e293b;
+      border-radius: 8px;
+    }
+
+    .switch-label {
+      font-size: 18px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .3s;
+      border-radius: 28px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px; width: 22px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #06b6d4;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Light mode */
+    body.light {
+      background: #f9f9f9;
+      color: #000;
+    }
+
+    body.light .card {
+      background: #fff;
+      color: #000;
+    }
+
+    body.light h1 {
+      color: #0f1724;
+    }
+
+    body.light button {
+      background: #e2e8f0;
+      color: #000;
+    }
+
+    body.light button:hover {
+      background: #06b6d4;
+      color: #fff;
+    }
+
+    body.light .ad-space {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    body.light .switch-container {
+      background: #e2e8f0;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Ad Banner -->
+  <div class="ad-space" id="adTop"></div>
+
+  <div class="card">
+    <h1>RME Reviewer</h1>
+
+    <button onclick="location.href='quiz-menu.html'">Quiz</button>
+    <button onclick="location.href='settings.html'">Settings</button>
+
+    <div class="switch-container">
+      <span class="switch-label">Dark/Light Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="themeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Bottom Ad Banner -->
+  <div class="ad-space" id="adBottom"></div>
+
+  <!-- Cordova -->
+  <script src="cordova.js"></script>
+  <script src="js/exit.js"></script>
+
+  <!-- Theme Switch JS -->
+  <script>
+    const themeSwitch = document.getElementById('themeSwitch');
+
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+      themeSwitch.checked = true;
+    }
+
+    themeSwitch.addEventListener('change', () => {
+      document.body.classList.toggle('light');
+      localStorage.setItem(
+        'theme',
+        document.body.classList.contains('light') ? 'light' : 'dark'
+      );
+    });
+  </script>
+
+  <!-- AdMob JS -->
+<script src="js/ads.js"></script>
+<script src="js/index.js"></script>
+  
+</body>
+</html>
